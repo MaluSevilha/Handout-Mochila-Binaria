@@ -81,51 +81,43 @@ Seguindo esse método:
 3. Não cabe **C** (36 + 22 > 40).  
   
 
-    **Fim**: valor total = 28.
+    **Fim**: valor total = 40.
  
 O problema é que a estratégia de sempre escolher o item de maior valor ignora
-completamente o peso de cada item.  
+completamente o **peso** de cada item.  
 
-Por isso, pode ocupar muito espaço com itens pesados de alto valor, deixando
-de lado combinações de itens ligeiramente mais leves que, em conjunto, dariam um
-valor total ainda maior (como B + C, que somam 42).
+Por isso, pode ocupar muito espaço com itens **pesados** de alto valor, deixando
+de lado combinações de itens ligeiramente mais **leves** que, em conjunto, dariam um
+valor total **ainda maior** (como **B + C**, que somam **42**).
 :::
 
 ???
 
+Vamos tentar mais uma vez. Já vimos que não podemos considerar só um dos
+atributos e ignorar o outro. Portanto, vamos selecionar os itens a partir de uma relação entre
+eles: a partir de agora, escolheremos sempre o item que tem o **maior valor por unidade de
+peso** (pense como se fosse uma espécie de **“custo/benefício”**).  
 
-??? Exercício  
+A ideia é, para cada item,
+**dividir o valor pelo peso**, para obter sua **“densidade”**. Então, preencher a mochila
+escolhendo sempre o item mais **“denso”**.
 
-Para o mesmo caso, qual valor total você obteve? Qual o principal problema dessa abordagem?
+??? Checkpoint
+Bom, então, faça isso. Esse método finalmente maximizou o valor total da
+mochila?
 
-::: Gabarito  
-Seguindo esse método, o valor total foi 40.  
-O problema é que ignoramos o peso dos itens de alto valor, podendo ocupar muito espaço e perder combinações melhores (como B + C = 42).  
-:::
-
-### 3. Escolher sempre pelo maior valor por peso (“densidade”)
-
-Calcule a densidade de cada item:  
-- Item **D**: 30 / 26 ≈ 1,15  
-- Item **C**: 24 / 22 ≈ 1,09  
-- Item **B**: 18 / 18 = 1,00  
-- Item **A**: 10 / 10 = 1,00  
-
-Preenchendo a mochila por densidade:  
-1. Seleciona **D** (peso total = 26, valor total = 30).  
-2. Não cabem **C** (26 + 22 > 40) nem **B** (26 + 18 > 40).  
-3. Seleciona **A** (peso total = 36, valor total = 40).  
-**Fim**: valor total = 40.
-???
-??? Exercício  
-
-Esse método finalmente maximizou o valor total da mochila?
-
-::: Gabarito  
-Não. Apesar de D ter a maior densidade, sobra um “buraco” de 4 unidades de peso que não pode ser aproveitado. A combinação B + C (peso 40) rende valor 42, superando o resultado por densidade.  
+::: Gabarito 
+Calculando a “densidade” de cada item:
+- Item D: 30 / 26 ≈ 1,15
+- Item C: 24 / 22 ≈ 1,09
+- Item B: 18 / 18 = 1,00
+- Item A: 10 / 10 = 1,00  
+  
+Preenchendo a mochila:
 :::
 
 ???
+
 Abordagem força bruta  
 ---------
 

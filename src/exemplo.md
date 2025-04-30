@@ -6,7 +6,7 @@ O problema da Mochila Binária
 Objetivo do Handout  
 ---------  
 
-O objetivo essencial do handout é explicar o problema da mochila binária, proposto e entrelaçado com os conceitos apresentados na disciplina Desafios de Programação.
+O objetivo essencial do handout é explicar o problema da mochila binária, proposto e entrelaçado com os conceitos apresentados na disciplina [Desafios de Programação](https://ensino.hashi.pro.br/desprog/).
 
 - Relembrar conceitos relacionados a programação dinâmica;  
 - Associar o problema a situações reais;  
@@ -14,11 +14,11 @@ O objetivo essencial do handout é explicar o problema da mochila binária, prop
 Conceitualização do problema  
 ---------  
 
-Imagine que exista, à nossa frente, um conjunto de *n* elementos. Cada um desses elementos tem um peso (*p*) e um valor (*v*), que não apresentam nenhuma relação entre si. Além desses elementos, suponha que possua-se uma mochila à qual é associada uma capacidade máxima (*C*) de peso que pode levar. O problema surge quando precisamos levar o **máximo valor possível** na mochila, respeitando o limite de capacidade.
+Imagine que exista, à nossa frente, um conjunto de *n* elementos. Cada um desses elementos tem um peso (*p*) e um valor (*v*), que não apresentam nenhuma relação entre si. Além desses elementos, suponha que possua-se uma mochila à qual é associada uma capacidade máxima (*C*) de peso que essa pode carregar. O problema surge quando precisamos levar o **máximo valor possível** na mochila, respeitando o limite de capacidade.
 
-O problema é conhecido como **mochila binária**, pois não é possível fracionar nenhum dos itens: cada item será levado por inteiro (1) ou não (0), gerando exatamente 2 possibilidades por item. A versão em que os itens podem ser fracionados é chamada de **Problema Fracionário da Mochila** ou **Problema Contínuo da Mochila**.
+O problema é conhecido como **mochila binária**, pois não é possível fracionar nenhum dos itens: cada item será levado por inteiro (1) ou não (0), gerando 2 possibilidades por item. A versão em que os itens podem ser fracionados é chamada de [Problema Fracionário da Mochila ou Problema Contínuo da Mochila](https://en.wikipedia.org/wiki/Continuous_knapsack_problem#:~:text=In%20theoretical%20computer%20science%2C%20the,the%20value%20of%20the%20selected).
 
-Ele é particularmente relevante para a otimização de processos ou aquisições: imaginemos a compra de uma série de CPUs, cada qual com um custo (peso) e uma capacidade de produção (valor). Como há um *budget* limitado (capacidade), precisamos decidir quais CPUs comprar para maximizar o desempenho total.
+O prblema da mochila binária é particularmente relevante para a otimização de processos ou aquisições. Imaginemos a compra de uma série de CPUs, cada qual com um custo (peso) e uma capacidade de produção (valor). Como há um *budget* limitado (capacidade), precisamos decidir quais CPUs comprar para maximizar o desempenho total.
 
 Primeiras ideias para resolução  
 ---------  

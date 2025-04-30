@@ -25,7 +25,7 @@ Primeiras ideias para resolução
 
 Dito isso, fica a pergunta: como escolher o que levar na mochila?  
 
-Bom, vamos pensar primeiro em algumas estratégias “gulosas”, ou seja, nas
+Bom, vamos pensar primeiro nas
 abordagens mais intuitivas possíveis, sem pensar muito nas consequências. A primeira
 seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de
 itens. Para ilustrar essa abordagem, vamos considerar uma mochila com **capacidade igual
@@ -38,7 +38,7 @@ a 40 unidades de peso** e quatro itens disponíveis:
 | C    | 22   | 24    |
 | D    | 26   | 30    |
 
-Executando nosso “algoritmo” de ir selecionando sempre o mais leve até que a
+Ao selecionar sempre o mais leve até que a
 capacidade da mochila não seja suficiente, temos o seguinte resultado:
 
 1. Seleciona **A** (peso total = 10, valor total = 10).  
@@ -107,31 +107,64 @@ Bom, então, faça isso. Esse método finalmente maximizou o valor total da
 mochila?
 
 ::: Gabarito 
-Calculando a “densidade” de cada item:
+Calculando a “densidade” de cada item:  
+
 - Item D: 30 / 26 ≈ 1,15
 - Item C: 24 / 22 ≈ 1,09
 - Item B: 18 / 18 = 1,00
 - Item A: 10 / 10 = 1,00  
   
-Preenchendo a mochila:
+  
+
+Preenchendo a mochila:  
+
+1. Seleciona **D** (peso total = 26, valor total = 30).  
+2. Tenta selecionar **C**, mas 26 + 22 > 40 (capacidade), logo não cabe. 
+3. Tenta selecionar **B**, mas 26 + 18 > 40 (capacidade), logo não cabe.
+4. Seleciona **A** (peso total = 26 + 10 = 36, valor total = 30 + 10 = 40).
+
+  
+
+    **Fim**: valor total = 40.
+  
+
+O valor total ainda **não foi maximizado**, já que o resultado foi 40, e não 42.
 :::
 
 ???
 
+Ao executar o último método, você deve ter percebido que sobraram **4 unidades de peso** na mochila. Esse pequeno “buraco” faz toda a diferença. Se tivéssemos escolhido **B** (peso 18, valor 18) e **C** (peso 22, valor 24), usaríamos exatamente **40 de peso** e alcançaríamos valor **42**. Ou seja, mesmo que **D** tenha a **melhor taxa individual de retorno**, sua escolha deixa **espaço ocioso** que não pode ser bem aproveitado. Esse é o grande problema dessa estratégia: ela não leva em consideração o **espaço** na mochila, e portanto não garante o melhor uso da capacidade disponível.  
+  
+  
+Ok. Você já deve estar ficando frustrado. Você provavelmente deve estar pensando “Isso já está ficando complicado demais! Se testarmos todas as combinações possíveis, alguma delas será a correta, não é mesmo?”, e sim, isso é verdade. Essa com certeza é a abordagem mais intuitiva: resolver o problema na **“força bruta”**.
+
+
 Abordagem força bruta  
 ---------
 
-Podemos gerar **todas** as combinações possíveis de itens e escolher aquela que maximize o valor sem ultrapassar a capacidade.
+Podemos utilizar da força bruta para gerar todas as possibilidades de mochila e escolher a combinação que gera o maior valor total.  
+
+Assim, o primeiro desafio é *criar todas as combinações*.  
 
 !!! Aviso  
-A ordem dos itens na combinação não importa. Dois conjuntos são diferentes apenas se tiverem elementos distintos; só importam a soma dos pesos e a soma dos valores.  
-!!!
+A ordem em que os itens são colocados não é relevante para a mochila, já que as únicas propriedades que importam são a soma dos pesos (para determinar se um conjunto é válido) e a soma de valores dos elementos.  
 
-#### Cálculo de complexidade dessa força bruta
+Dessa forma, **dois conjuntos são diferentes apenas se possuem elementos diferentes**.
+!!!  
 
-Como cada item pode ou não ser incluído, há 2 possibilidades por item, resultando em complexidade $O(2^n)$.
+Com todas as possibilidades criadas, é necessário “apenas”, armazenar o conjunto que devolve o maior valor gerado, sem ultrapassar a capacidade máxima, até que todas as opções tenham sido percorridas.  
 
-Combinações para *n* = 3:
+??? Checkpoint
+Dada a descrição da abordagem, sem fazer cálculos, qual você imagina que seja a complexidade do algoritmo?
+
+::: Gabarito 
+Como todas as combinações devem ser testadas, a complexidade do algoritmo está associada ao processo de formação de todas essas combinações. Como cada elemento pode ou não ser adicionado, então a complexidade do elemento deve ser $O(2^n)$.
+:::
+
+???  
+
+
+Combinações com 3 itens (*n* = 3):
 
 | a | b | c | i |
 |---|---|---|---|

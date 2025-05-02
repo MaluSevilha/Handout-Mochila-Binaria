@@ -273,7 +273,7 @@ $$
 
 **Passo 5 - Conclusão**
 
-Como: $$ h <= c\hspace{0.3em}n $$ Pelas regras de simplificação, podemos concluir que a complexidade é:
+Como $h <= c\hspace{0.3em}n$, pelas regras de simplificação, podemos concluir que a complexidade é:
 
 
 $$

@@ -253,6 +253,8 @@ Ok, talvez isso tenha ficado um pouco abstrato, vamos montar a tabela para o exe
 
 ### Dados dos itens (CPUs)
 
+<br>
+
 | CPU | Custo | Desempenho |
 |-----|-------|-------------|
 | A   | 1     | 1           |
@@ -263,9 +265,15 @@ Ok, talvez isso tenha ficado um pouco abstrato, vamos montar a tabela para o exe
 
 Orçamento máximo: **8**
 
+!!! Aviso  
+As linhas da tabela representam **combinações** de itens já avaliadas, não itens isolados.
+!!!
+
 ---
 
 ### Etapa 1: Nenhum item considerado
+
+<br>
 
 | Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-----------|---|---|---|---|---|---|---|---|---|
@@ -284,6 +292,8 @@ A situação onde **nenhum item** foi considerado ainda. Portanto, para qualquer
 
 ### Etapa 2: Considerando apenas a CPU A
 
+<br>
+
 | Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-----------|---|---|---|---|---|---|---|---|---|
 | A         | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
@@ -300,6 +310,8 @@ Porque a CPU A cabe em todos esses orçamentos, e ela oferece desempenho 1. Como
 ---
 
 ### Etapa 3: Considerando as CPUs A e B
+
+<br>
 
 | Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |---------------|---|---|---|---|---|---|---|---|---|
@@ -320,6 +332,8 @@ Essa é a melhor opção nesse caso.
 
 ### Etapa 4: Considerando as CPUs A, B e C
 
+<br>
+
 | Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |---------------|---|---|---|---|---|---|---|---|---|
 | A, B e C      | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
@@ -338,6 +352,8 @@ CPU C custa 4, sobra orçamento 3. A linha anterior (A e B) com orçamento 3 tem
 
 ### Etapa 5: Considerando as CPUs A, B, C e D
 
+<br>
+
 | Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |---------------|---|---|---|---|---|---|---|---|---|
 | A, B, C e D   | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
@@ -355,6 +371,8 @@ CPU D custa 5, sobra orçamento 3. A linha anterior (A, B e C) com orçamento 3 
 ---
 
 ### Etapa 6: Considerando as CPUs A, B, C, D e E
+
+<br>
 
 | Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |---------------|---|---|---|---|---|---|---|---|---|
@@ -375,6 +393,8 @@ CPU E custa 2, sobra 0. Valor da linha anterior em 0 é 0.
 
 ### Etapa final: Análise da última célula
 
+<br>
+
 | CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
 | Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -383,6 +403,8 @@ CPU E custa 2, sobra 0. Valor da linha anterior em 0 é 0.
 | A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
 | A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
 | A, B, C, D, E     | 0 | 1 | 2 | 4 | 5 | 7 | 8 | 9 | 11 |
+
+<br>
 
 ??? Checkpoint
 O que representa o valor da **última célula da tabela** (linha A, B, C, D e E; coluna 8)?
@@ -428,6 +450,3 @@ Essa abordagem é muito mais eficiente e torna possível resolver instâncias qu
 :simu
 
 
-!!! Aviso  
-As linhas da tabela representam **combinações** de itens já avaliadas, não itens isolados. 🤓☝  
-!!!

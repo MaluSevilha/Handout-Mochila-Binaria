@@ -18,7 +18,9 @@ Imagine que exista, à nossa frente, um conjunto de *n* elementos. Cada um desse
 
 O problema é conhecido como **mochila binária**, pois não é possível fracionar nenhum dos itens: cada item será levado por inteiro (1) ou não (0), gerando 2 possibilidades por item. A versão em que os itens podem ser fracionados é chamada de [Problema Fracionário da Mochila ou Problema Contínuo da Mochila](https://en.wikipedia.org/wiki/Continuous_knapsack_problem#:~:text=In%20theoretical%20computer%20science%2C%20the,the%20value%20of%20the%20selected).
 
-O prblema da mochila binária é particularmente relevante para a otimização de processos ou aquisições. Imaginemos a compra de uma série de CPUs, cada qual com um custo (peso) e uma capacidade de produção (valor). Como há um *budget* limitado (capacidade), precisamos decidir quais CPUs comprar para maximizar o desempenho total.
+A mochila binária é particularmente relevante para a otimização de processos ou aquisições. Imaginemos a compra de uma série de CPUs, cada qual com um custo (peso) e uma capacidade de produção (valor). Como há um *budget* limitado (capacidade), precisamos decidir quais CPUs comprar para maximizar o desempenho total.
+
+![CPU](cpu.png)
 
 Primeiras ideias para resolução  
 ---------  
@@ -190,20 +192,50 @@ Programação dinâmica
 ---------
 
 Uma complexidade $O(2^n)$ é um tanto grande, não? Isso significa que o número de possibilidades dobra a cada novo item, crescendo muito rápido — e tornando o problema inviável para conjuntos grandes.
-Então, precisamos de uma abordagem melhor. Para isso, vamos relembrar um conceito que vimos na APS 3: Programação Dinâmica.
+
+Então, precisamos de uma abordagem melhor. Para isso, vamos relembrar um conceito que vimos na [APS 3](https://ensino.hashi.pro.br/desprog/aps/3/): **Programação Dinâmica**.
 
 Na APS 3, trabalhamos com um problema inspirado na Biologia Computacional: medir a distância de edição entre duas sequências de DNA. A ideia era descobrir o número mínimo de operações necessárias para transformar uma sequência na outra, considerando inserções, remoções ou substituições de caracteres.
 
-![](dna.png)
+![DNA](dna.gif)
 
-Inicialmente, esse problema pode ser resolvido com recursão, mas isso rapidamente se torna um empecilho — a quantidade de chamadas cresce exponencialmente. Foi aí que usamos a programação dinâmica, uma técnica que quebra o problema em subproblemas menores, resolve cada um deles uma única vez, e guarda as soluções para reutilizar depois. Com isso, transformamos um algoritmo de complexidade altíssima em algo muito mais eficiente.
+Inicialmente, esse problema pode ser resolvido com **recursão**, mas isso rapidamente se torna um empecilho — a quantidade de chamadas cresce exponencialmente. 
 
-A APS 3 mostrou, de forma prática, como a programação dinâmica nos permite resolver problemas complexos com eficiência, ao evitar recomputações e organizar a resolução dos subproblemas de maneira sistemática. Esse mesmo raciocínio pode ser aplicado em diversos contextos — inclusive no nosso problema atual.
+Foi aí que usamos a **Programação dinâmica**, uma técnica que quebra o problema em subproblemas menores, resolve cada um deles uma única vez, e guarda as soluções para reutilizar depois. Com isso, transformamos um algoritmo de complexidade altíssima em algo muito mais eficiente. 
 
 A ideia da Programação Dinâmica é evitar calcular a mesma coisa várias vezes.
-Se formos pensar, muitos subproblemas são repetidos. Por exemplo, ao decidir se usamos ou não um item, muitas combinações acabam compartilhando a mesma capacidade restante.
 
-A Programação Dinâmica resolve isso armazenando as soluções intermediárias em uma tabela — chamada de tabela de estados — e reutilizando essas soluções sempre que necessário.
+Esse mesmo raciocínio pode ser aplicado em diversos contextos — inclusive no nosso problema atual.
+
+??? Checkpoint
+Considere o seguinte exemplo de 5 CPUs disponíveis para compra, cada uma com um custo e um desempenho associado. O orçamento disponível é 8.
+
+| CPU | Custo | Desempenho |
+|-----|-------|-------------|
+| A   | 1     | 1           |
+| B   | 3     | 4           |
+| C   | 4     | 5           |
+| D   | 5     | 7           |
+| E   | 2     | 2           |
+
+Quantas combinações diferentes precisamos analisar para saber qual conjunto de CPUs fornece o maior desempenho **sem ultrapassar o orçamento**?  
+Você percebe que, ao testar as combinações, **a mesma capacidade restante aparece várias vezes**?
+
+Pense:
+- Se escolhemos a CPU B (custo 3), restam 5 de orçamento.
+- Se escolhemos a CPU D (custo 5), restam 3 de orçamento.
+- Se escolhemos A e E (custos 1 + 2), também restam 5 de orçamento.
+  
+Esses subproblemas com a **mesma capacidade restante** (como 5 ou 3) são repetidos em diferentes caminhos de decisão. Isso gera cálculos repetidos.
+
+::: Gabarito  
+Com 5 itens, o número total de subconjuntos possíveis seria 2⁵ = 32 combinações.  
+Muitas dessas combinações diferentes geram os **mesmos subproblemas de capacidade restante**, o que resulta em **cálculos redundantes**.
+
+A Programação Dinâmica evita esses cálculos repetidos **armazenando em uma tabela os melhores desempenhos possíveis para cada orçamento e conjunto parcial de itens**, garantindo que cada subproblema seja resolvido apenas **uma única vez**.
+:::
+???
+
 
 Ou seja, em vez de recalcular tudo do zero, o algoritmo vai preenchendo essa tabela passo a passo, aproveitando as respostas já conhecidas.
 No caso da Mochila Binária, montamos uma tabela onde:
@@ -218,24 +250,27 @@ Essa abordagem é muito mais eficiente e torna possível resolver instâncias qu
 
 Vamos pens
 
-Para cada célula 
-(i, w)
- (linha da CPU atual e orçamento atual):
-Você precisa responder mentalmente:
-Essa CPU cabe no orçamento atual w?
-Se NÃO cabe (ou seja, o custo da CPU é maior que w):
-Você não pode comprar essa CPU.
-Então, a melhor solução é a mesma que você já tinha sem essa CPU.
-Ou seja, simplesmente copia o valor da célula de cima.
-Se SIM, ela cabe no orçamento w:
-Agora você tem uma escolha a fazer:
-Opção 1: Ignorar essa CPU e não usá-la.
-Resultado: manter o melhor desempenho que já existia sem ela (valor de cima).
-Opção 2: Usar essa CPU.
-Resultado: somar o desempenho dessa CPU com o melhor desempenho anterior que cabe no orçamento restante (w - custo da CPU).
-Você compara essas duas opções:
-Quem der mais desempenho, vence
+### Lógica para preenchimento da célula (i, w)
 
+- Para cada célula (i, w) da tabela (linha da CPU atual e orçamento atual), siga os passos:
+
+  - **Essa CPU cabe no orçamento atual w?**
+
+    - **Se NÃO** (ou seja, o custo da CPU é maior que w):
+      - Você **não pode comprar** essa CPU.
+      - A melhor solução é a mesma que você já tinha **sem essa CPU**.
+      - **Ação:** Copiar o valor da célula de cima.
+
+    - **Se SIM** (ou seja, o custo da CPU é menor ou igual a w):
+      - Você tem **duas opções**:
+
+        - **Opção 1: Ignorar essa CPU e não usá-la**
+          - Resultado: manter o melhor desempenho anterior (**valor da célula de cima**).
+
+        - **Opção 2: Usar essa CPU**
+          - Resultado: somar o desempenho dessa CPU com o **melhor desempenho anterior** que cabe no orçamento restante (**w - custo da CPU**), ou seja, valor da célula da **linha anterior e coluna (w - custo da CPU)**.
+
+      - **Comparação:** Escolha o valor **máximo** entre as duas opções.
 
 :simu
 

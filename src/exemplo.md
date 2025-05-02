@@ -184,9 +184,102 @@ Montando o algoritmo de forma recursiva
 
 Uma implementação recursiva explora, para cada item, as escolhas de “incluir” ou “não incluir”. Entretanto, essa versão recursiva repete subproblemas e mantém a complexidade exponencial.
 
-#### Cálculo de complexidade desse algoritmo
+Cálculo de complexidade desse algoritmo
+---------
 
-Ainda $O(2^n)$, pois reexploramos combinações repetidas.
+Vamos fazer o cálculo como aprendemos em aula, passo a passo de um algoritmo recursivo. 
+
+Como o algoritmo recebe vários parâmetros, vamos analisar apenas em função do responsável pela recursão, o *n*.
+
+**Passo 1**
+
+??? Checkpoint
+Fazer o sistema de complexidade
+
+Dica: Faça para o *pior caso*, onde o item atual cabe na mochila, e temos que escolher se ele entra, ou não.
+
+::: Gabarito
+
+$$
+f(n) = \begin{cases} 1 & \text{se } n = 0 \\ 2 \cdot f(n-1) + 1 & \text{se } n > 0 \end{cases}
+$$
+
+:::
+???
+
+**Passo 2**
+
+Fazer a árvore de recursão (essa fornecerei para vocês).
+
+![Arvore Complexidade](arvore_complexidade.png)
+
+**Passo 3**
+
+??? Checkpoint
+Estimar a altura <font color="red">*h*</font> da árvore.
+
+::: Gabarito
+
+Cada chamada recursiva reduz *n* em 1 enquanto for maior que 0.
+
+No antepenúltimo andar *(h-2)*, ainda não chegamos na base.
+
+  $$
+  n - 1 \cdot (h-2) > 0
+  $$
+  
+  $$
+  n - h + 2 > 0
+  $$
+
+  $$
+  h < n + 2
+  $$
+
+  $$
+  h = O(n), \hspace{0.3em}ou\hspace{0.3em}seja, h <= c\hspace{0.3em}n
+  $$
+
+:::
+???
+
+**Passo 4**
+
+??? Checkpoint
+Estimar a soma de vermelhos (retornos)
+
+::: Gabarito
+
+Ao longo dos andares, temos:
+
+$$
+(1, 2, 4, \dots, 2^{h-1})
+$$
+
+Soma de PG:
+- Primeiro elemento: *1*;
+- Razão: *2*;
+- Quantidade de elementos: *h*.
+
+$$
+= 1 \cdot \frac{2^h - 1}{2 - 1} 
+$$
+$$  
+= 2^h - 1
+$$
+
+:::
+???
+
+**Passo 5 - Conclusão**
+
+Como: $$ h <= c\hspace{0.3em}n $$ Pelas regras de simplificação, podemos concluir que a complexidade é:
+
+
+$$
+\mathbf{O(2^n)}
+$$
+
 
 Programação dinâmica 
 ---------

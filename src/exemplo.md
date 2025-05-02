@@ -226,7 +226,7 @@ Pense:
 - Se escolhemos a CPU D (custo 5), restam 3 de orçamento.
 - Se escolhemos A e E (custos 1 + 2), também restam 5 de orçamento.
   
-Esses subproblemas com a **mesma capacidade restante** (como 5 ou 3) são repetidos em diferentes caminhos de decisão. Isso gera cálculos repetidos.
+Essas subcomparações de combinações com a **mesma capacidade restante** (como 5 ou 3) são repetidos em diferentes caminhos de decisão. Reflita sobre as implicações disso.
 
 ::: Gabarito  
 Com 5 itens, o número total de subconjuntos possíveis seria 2⁵ = 32 combinações.  
@@ -237,18 +237,171 @@ A Programação Dinâmica evita esses cálculos repetidos **armazenando em uma t
 ???
 
 
-Ou seja, em vez de recalcular tudo do zero, o algoritmo vai preenchendo essa tabela passo a passo, aproveitando as respostas já conhecidas.
-No caso da Mochila Binária, montamos uma tabela onde:
-Cada linha representa os itens considerados;
-Cada coluna representa a capacidade disponível da mochila;
-E cada célula guarda o valor máximo que conseguimos para aquela situação.
+**{red}(Ou seja, em vez de recalcular tudo do zero, o algoritmo vai preenchendo essa tabela passo a passo, aproveitando as respostas já conhecidas.)**
 
-Ok, talvez tenha sido um pouco rápido demais, vamos tentar exercitar isso de forma mais simplificada antes de avançar.
+No caso da Mochila Binária, montamos uma tabela onde:
+- **Cada linha** representa os **itens considerados até o momento**.
+
+- **Cada coluna** representa a **capacidade disponível da mochila**.
+
+- **Cada célula** guarda o **valor máximo possível de desempenho** que conseguimos atingir naquela situação (com aquele subconjunto de itens e aquele orçamento).
+
+Ok, talvez isso tenha ficado um pouco abstrato, vamos montar a tabela para o exemplo do caso anterior.
+
+
+## Construção da Tabela da Mochila Binária
+
+### Dados dos itens (CPUs)
+
+| CPU | Custo | Desempenho |
+|-----|-------|-------------|
+| A   | 1     | 1           |
+| B   | 3     | 4           |
+| C   | 4     | 5           |
+| D   | 5     | 7           |
+| E   | 2     | 2           |
+
+Orçamento máximo: **8**
+
+---
+
+### Etapa 1: Nenhum item considerado
+
+| Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|-----------|---|---|---|---|---|---|---|---|---|
+| Nenhum    | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+??? Checkpoint
+O que representa a primeira linha da tabela acima?
+
+::: Gabarito
+A situação onde **nenhum item** foi considerado ainda. Portanto, para qualquer orçamento, o valor máximo de desempenho é **0**.
+:::
+
+???
+
+---
+
+### Etapa 2: Considerando apenas a CPU A
+
+| Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|-----------|---|---|---|---|---|---|---|---|---|
+| A         | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+
+??? Checkpoint
+Por que as células de orçamento 1 a 8 agora têm valor 1?
+
+::: Gabarito
+Porque a CPU A cabe em todos esses orçamentos, e ela oferece desempenho 1. Como não há outra CPU ainda, essa é a melhor escolha possível.
+:::
+
+???
+
+---
+
+### Etapa 3: Considerando as CPUs A e B
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A e B         | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
+
+??? Checkpoint
+Por que a célula (A e B, orçamento 4) ficou com valor 5?
+
+::: Gabarito
+Podemos usar a CPU B (custo 3), restando orçamento 1. A linha anterior (só A) com orçamento 1 tem valor 1.  
+Logo: 4 (B) + 1 (restante) = **5**.  
+Essa é a melhor opção nesse caso.
+:::
+
+???
+
+---
+
+### Etapa 4: Considerando as CPUs A, B e C
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A, B e C      | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
+
+??? Checkpoint
+Explique por que a célula (A, B e C, orçamento 7) tem valor 9.
+
+::: Gabarito
+CPU C custa 4, sobra orçamento 3. A linha anterior (A e B) com orçamento 3 tem valor 4.  
+5 (CPU C) + 4 (melhor com restante 3) = **9**
+:::
+
+???
+
+---
+
+### Etapa 5: Considerando as CPUs A, B, C e D
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A, B, C e D   | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
+
+??? Checkpoint
+Na célula (A, B, C e D, orçamento 8), qual foi o raciocínio?
+
+::: Gabarito
+CPU D custa 5, sobra orçamento 3. A linha anterior (A, B e C) com orçamento 3 tem valor 4.  
+7 (D) + 4 = **11**, melhor que a opção sem D (10).
+:::
+
+???
+
+---
+
+### Etapa 6: Considerando as CPUs A, B, C, D e E
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A, B, C, D, E | 0 | 1 | 2 | 4 | 5 | 7 | 8 | 9 | 11 |
+
+??? Checkpoint
+Na célula (A, B, C, D e E, orçamento 2), por que usamos a CPU E?
+
+::: Gabarito
+CPU E custa 2, sobra 0. Valor da linha anterior em 0 é 0.  
+2 (E) + 0 = **2**  
+É melhor que manter valor anterior (1).
+:::
+
+???
+
+---
+
+### Etapa final: Análise da última célula
+
+| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|-------------------|---|---|---|---|---|---|---|---|---|
+| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
+| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
+| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
+| A, B, C, D, E     | 0 | 1 | 2 | 4 | 5 | 7 | 8 | 9 | 11 |
+
+??? Checkpoint
+O que representa o valor da **última célula da tabela** (linha A, B, C, D e E; coluna 8)?
+
+::: Gabarito
+Representa o **melhor desempenho possível com orçamento 8**, considerando **todas as CPUs disponíveis**.  
+É o resultado final da programação dinâmica: a melhor combinação possível sem ultrapassar o limite de orçamento.
+:::
+
+???
+
+
+
+
 
 Assim, saímos de uma complexidade 2^n, exponencial, para uma complexidade polinomial, de O(n * W), onde n é o número de itens e W é a capacidade da mochila.
 Essa abordagem é muito mais eficiente e torna possível resolver instâncias que seriam inviáveis na força bruta.
 
-Vamos pens
+
 
 ### Lógica para preenchimento da célula (i, w)
 

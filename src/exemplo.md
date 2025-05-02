@@ -265,8 +265,12 @@ Ok, talvez isso tenha ficado um pouco abstrato, vamos montar a tabela para o exe
 
 Orçamento máximo: **8**
 
+Ao preencher cada célula da tabela, que representa um item (linha) e um determinado orçamento (coluna), siga este raciocínio:
+
+![Diagrama](Diagrama.jpg)
+
 !!! Aviso  
-As linhas da tabela representam **combinações** de itens já avaliadas, não itens isolados.
+As linhas da tabela representam **combinações** de itens considerados até dado ponto, não itens isolados.
 !!!
 
 ---

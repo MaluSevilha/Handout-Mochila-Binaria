@@ -420,37 +420,32 @@ Representa o **melhor desempenho possível com orçamento 8**, considerando **to
 
 ???
 
+Assim, saímos de uma complexidade exponencial de  $O(2^n)$ para uma complexidade polinomial de $O(n \cdot W)$, onde:
+
+- $n$ é o número de itens, e  
+- $W$ é a capacidade total da mochila.
+
+Essa abordagem é muito mais eficiente e torna viável resolver instâncias que seriam impraticáveis com força bruta.
 
 
+Agora, se quiser explorar um exemplo mais desafiador, considere o conjunto de CPUs abaixo com um orçamento total de 12 unidades
 
 
-Assim, saímos de uma complexidade 2^n, exponencial, para uma complexidade polinomial, de O(n * W), onde n é o número de itens e W é a capacidade da mochila.
-Essa abordagem é muito mais eficiente e torna possível resolver instâncias que seriam inviáveis na força bruta.
+| CPU | Custo | Desempenho |
+|-----|-------|------------|
+| A   | 8     | 76         |
+| B   | 3     | 37         |
+| C   | 6     | 47         |
+| D   | 5     | 60         |
+| E   | 9     | 91         |
+| F   | 2     | 21         |
+| G   | 7     | 86         |
+| H   | 4     | 36         |
 
-
-
-### Lógica para preenchimento da célula (i, w)
-
-- Para cada célula (i, w) da tabela (linha da CPU atual e orçamento atual), siga os passos:
-
-  - **Essa CPU cabe no orçamento atual w?**
-
-    - **Se NÃO** (ou seja, o custo da CPU é maior que w):
-      - Você **não pode comprar** essa CPU.
-      - A melhor solução é a mesma que você já tinha **sem essa CPU**.
-      - **Ação:** Copiar o valor da célula de cima.
-
-    - **Se SIM** (ou seja, o custo da CPU é menor ou igual a w):
-      - Você tem **duas opções**:
-
-        - **Opção 1: Ignorar essa CPU e não usá-la**
-          - Resultado: manter o melhor desempenho anterior (**valor da célula de cima**).
-
-        - **Opção 2: Usar essa CPU**
-          - Resultado: somar o desempenho dessa CPU com o **melhor desempenho anterior** que cabe no orçamento restante (**w - custo da CPU**), ou seja, valor da célula da **linha anterior e coluna (w - custo da CPU)**.
-
-      - **Comparação:** Escolha o valor **máximo** entre as duas opções.
 
 :simu
+
+Além disso, você pode testar seus próprios conjuntos de dados e orçamentos utilizando esta calculadora interativa online:
+👉 [Knapsack Calculator](https://augustineaykara.github.io/Knapsack-Calculator/) – by Augustine Aykara
 
 

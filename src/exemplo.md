@@ -1,14 +1,16 @@
 O problema da Mochila Binária  
 ======
 
-- Grupo 3 Bloco B (Henrique Puppi, Gustavo Takahashi, Marcos Costa, Maria Luisa Sevilha)
+<font color="gray">Grupo 3 - Bloco B (Henrique Puppi, Gustavo Takahashi, Marcos Costa, Maria Luisa Sevilha)</font>
 
 Objetivo do Handout  
 ---------  
 
 O objetivo essencial do handout é explicar o problema da mochila binária, proposto e entrelaçado com os conceitos apresentados na disciplina [Desafios de Programação](https://ensino.hashi.pro.br/desprog/).
 
-- Relembrar conceitos relacionados a programação dinâmica;  
+- Relembrar o processo de contrução de funções recursivas;
+- Relembrar o processo de cálculo de complexidade;
+- Relembrar conceitos relacionados à programação dinâmica;  
 - Associar o problema a situações reais;  
 
 Conceitualização do problema  
@@ -27,11 +29,9 @@ Primeiras ideias para resolução
 
 Dito isso, fica a pergunta: como escolher o que levar na mochila?  
 
-Bom, vamos pensar primeiro nas
-abordagens mais intuitivas possíveis, sem pensar muito nas consequências. A primeira
-seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de
-itens. Para ilustrar essa abordagem, vamos considerar uma mochila com **capacidade igual
-a 40 unidades de peso** e quatro itens disponíveis:
+Bom, vamos pensar primeiro em abordagens intuitivas, sem pensar muito nas consequências. 
+
+Uma primeira possibilidade seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de itens. Para ilustrar essa abordagem, vamos considerar uma mochila com **capacidade igual a 40 unidades de peso** e quatro itens disponíveis:
 
 | Item | Peso | Valor |
 |------|------|-------|
@@ -40,8 +40,7 @@ a 40 unidades de peso** e quatro itens disponíveis:
 | C    | 22   | 24    |
 | D    | 26   | 30    |
 
-Ao selecionar sempre o mais leve até que a
-capacidade da mochila não seja suficiente, temos o seguinte resultado:
+Ao selecionar sempre o item mais leve até que a capacidade da mochila não seja suficiente, temos o seguinte resultado:
 
 1. Seleciona **A** (peso total = 10, valor total = 10).  
 2. Seleciona **B** (peso total = 28, valor total = 28).  
@@ -57,23 +56,16 @@ A estratégia acima tem um problema. Qual? Tente calcular o maior valor total po
 A estratégia de sempre escolher o item mais leve ignora completamente o
 **valor** de cada item.  
 
-Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que
-você inclua itens um pouco mais pesados que, em conjunto, dariam um **valor total
-maior**.  
+Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que sejam incluídos itens um pouco mais pesados que, em conjunto, dariam um **valor total maior**.  
 
-Nesse caso, o maior valor é **42**, obtido ao selecionar os itens **B** (peso 18, valor
-18) e **C** (peso 22, valor 24), cuja soma de pesos fica exatamente em **40** e soma de
-valores em **18 + 24 = 42**.
+Nesse caso, o maior valor que pode ser levado é **42**. Ele pode ser obtido ao selecionar os itens **B** (peso 18, valor 18) e **C** (peso 22, valor 24), cuja soma de pesos fica exatamente em **40** e soma de valores em **42**.
 :::
 
 ???
-Ok. Já vimos que a abordagem anterior não dá certo. Então, vamos tentar ir por
-outro caminho: escolher sempre o item de **maior valor**.
-
+Ok. Já vimos que a abordagem anterior não dá certo. Então, vamos tentar ir por outro caminho: escolher sempre o item de **maior valor**.
 
 ??? Checkpoint
-Para o mesmo caso, tente resolver o problema dessa forma. Qual foi o valor
-total que você obteve? Qual o principal problema dessa nova abordagem?
+Para o mesmo caso, tente resolver o problema dessa forma. Qual foi o valor total obtido? Qual o principal problema dessa nova abordagem?
 
 ::: Gabarito 
 Seguindo esse método:  
@@ -88,21 +80,14 @@ Seguindo esse método:
 O problema é que a estratégia de sempre escolher o item de maior valor ignora
 completamente o **peso** de cada item.  
 
-Por isso, pode ocupar muito espaço com itens **pesados** de alto valor, deixando
-de lado combinações de itens ligeiramente mais **leves** que, em conjunto, dariam um
-valor total **ainda maior** (como **B + C**, que somam **42**).
+Com essa estratégia, a mochila pode acabar cheia com poucos itens **pesados**, deixando de fora combinações de itens ligeiramente mais **leves** que, juntos, poderiam dar um valor total maior — como **B + C**, que juntos valem **42**.
 :::
 
 ???
 
-Vamos tentar mais uma vez. Já vimos que não podemos considerar só um dos
-atributos e ignorar o outro. Portanto, vamos selecionar os itens a partir de uma relação entre
-eles: a partir de agora, escolheremos sempre o item que tem o **maior valor por unidade de
-peso** (pense como se fosse uma espécie de **“custo/benefício”**).  
+Vamos tentar mais uma vez. Já vimos que não podemos considerar só um dos atributos e ignorar o outro. Portanto, vamos selecionar os itens a partir de uma relação entre eles: a partir de agora, escolheremos sempre o item que tem o **maior valor por unidade de peso** (pense como se fosse uma espécie de **“custo benefício”**).  
 
-A ideia é, para cada item,
-**dividir o valor pelo peso**, para obter sua **“densidade”**. Então, preencher a mochila
-escolhendo sempre o item mais **“denso”**.
+A ideia é, para cada item, **dividir o valor pelo peso**, para obter sua **“densidade”**. Então, preencher a mochila escolhendo sempre o item mais **“denso”**.
 
 ??? Checkpoint
 Bom, então, faça isso. Esse método finalmente maximizou o valor total da
@@ -137,7 +122,7 @@ O valor total ainda **não foi maximizado**, já que o resultado foi 40, e não 
 
 Ao executar o último método, você deve ter percebido que sobraram **4 unidades de peso** na mochila. Esse pequeno “buraco” faz toda a diferença. Se tivéssemos escolhido **B** (peso 18, valor 18) e **C** (peso 22, valor 24), usaríamos exatamente **40 de peso** e alcançaríamos valor **42**. Ou seja, mesmo que **D** tenha a **melhor taxa individual de retorno**, sua escolha deixa **espaço ocioso** que não pode ser bem aproveitado. Esse é o grande problema dessa estratégia: ela não leva em consideração o **espaço** na mochila, e portanto não garante o melhor uso da capacidade disponível.  
   
-  
+
 Ok. Você já deve estar ficando frustrado. Você provavelmente deve estar pensando “Isso já está ficando complicado demais! Se testarmos todas as combinações possíveis, alguma delas será a correta, não é mesmo?”, e sim, isso é verdade. Essa com certeza é a abordagem mais intuitiva: resolver o problema na **“força bruta”**.
 
 
@@ -145,8 +130,6 @@ Abordagem força bruta
 ---------
 
 Podemos utilizar da força bruta para gerar todas as possibilidades de mochila e escolher a combinação que gera o maior valor total.  
-
-Assim, o primeiro desafio é *criar todas as combinações*.  
 
 !!! Aviso  
 A ordem em que os itens são colocados não é relevante para a mochila, já que as únicas propriedades que importam são a soma dos pesos (para determinar se um conjunto é válido) e a soma de valores dos elementos.  
@@ -165,6 +148,7 @@ Como todas as combinações devem ser testadas, a complexidade do algoritmo est�
 
 ???  
 
+Se ainda não estiver convencido que essa é a complexidade desse algoritmo, veja a tabela abaixo, que demonstra todas as possíveis combinações. Nessa, *0* representa não incluir e *1*, incluir. A coluna de *i* conta quantas combinações são possíveis.
 
 Combinações com 3 itens (*n* = 3):
 
@@ -179,22 +163,222 @@ Combinações com 3 itens (*n* = 3):
 | 0 | 1 | 1 | 7 |
 | 1 | 1 | 1 | 8 |
 
+Se ainda não estiver convencido, tente simular essa mesma tabela com mais ou menos itens.
+
+Visualizando essa solução, nos deparamos com um desafio: como geraremos todas as possíveis combinações? Como que conseguiremos armazenar, para cada uma delas, o valor e o peso? Para resolver usando a força bruta, utilizaremos de um algoritmo recursivo. 
+
 Montando o algoritmo de forma recursiva  
 ---------
+Para começar a produzir a solução do problema da mochila, vamos resumir a lógica que o algoritmo deverá seguir. 
 
-Uma implementação recursiva explora, para cada item, as escolhas de “incluir” ou “não incluir”. Entretanto, essa versão recursiva repete subproblemas e mantém a complexidade exponencial.
+A ideia principal é que, para cada elemento dentro da lista de itens, devemos conferir se ele cabe ou não na mochila. Se ele não couber, o ignoramos. Se ele couber, o próximo passo é comparar as duas opções: a mochila com e sem o item.
+
+??? Checkpoint
+Durante a abordagem, descrevemos a comparação de dois valores: que incluem ou não um determinado item (*itens[i]*). Quando pensamos no “valor que não inclui o elemento”, ao que estamos nos referindo?
+
+::: Gabarito
+O valor que não inclui o elemento é o maior valor que pode ser acumulado (respeitando a capacidade) em todas as combinações possíveis até *itens[i-1]*. Essa comparação precisará ser feita várias vezes. Mais especificamente para cada valor associado a cada possível combinação até *itens[i-1]*.
+:::
+???
+
+Assim, para cada item, será necessário conferir todas as possíveis combinações que esse pode formar. A todas essas combinações determina-se, primeiro, se essa respeita a capacidade limite e, depois, o seu valor.
+
+Assim, quando descrevemos comparar os valores incluindo ou não um determinado elemento, precisamos comparar  **todas as possíveis combinações sem o elemento e com o elemento**. Para melhor entender essa descrição, observe a demonstração visual, com apenas três itens.
+
+:demo
+
+Para implementar essa solução, utilizaremos da recursão. Essa ferramenta explora, para cada item, as escolhas de “incluir” ou “não incluir”. Assim, essa possível forma de resolução **repete subproblemas**.
+
+Assim, dada a seguinte estrutura de cada item e a função [[max]], pode-se começar a implementação desejada.
+
+Estrutura [[item]]:
+```c
+typedef struct {
+    int valor;
+    int peso;
+} item;
+```
+Função [[max]]:
+```c
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+```
+
+Para construir o algoritmo recursivo, vamos seguir o roteiro descrito na [Aula 2 de Desafios de Programação](https://ensino.hashi.pro.br/desprog/aula/2/).
+
+**Passo 1** (*feito*): entenda o que a função recebe e o que deveria fazer
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    // Escreva aqui o caso base da função
+}
+```
+
+Nesse caso, a função recursiva receberá uma lista de itens que estão disponíveis, a quantidade de itens e a capacidade máxima da mochila.
+
+**Passo 2** (*feito*): adicione uma chamada recursiva ao código da função.
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    mochila_r(???);
+}
+```
+
+**Passo 3**: passe para a chamada recursiva um parâmetro menor.
+
+??? Checkpoint
+Pense nos dois possíveis casos para cada item. Se fossemos excluir o item, como ficaria a chamada recursiva? E se fossemos colocá-lo na mochila?
+
+::: Gabarito
+Se fossemos excluir o item, apenas a quantidade de itens (*n*) deveria diminuir. Afinal, estamos olhando para um item a menos.
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    mochila_r(itens, n - 1, cap);
+}
+```
+
+Por outro lado, se fossemos incluir o elemento, devemos considerar que, para o próximo item, a **capacidade estará reduzida** (terá o peso daquele item na mochila). Assim, para esse caso, a capacidade da mochila também deve ser diminuída.
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    mochila_r(itens, n - 1, cap - itens[n-1].peso);
+}
+```
+:::
+???
+
+Então, a recursão precisa lidar com **dois caminhos!** Dessa forma, devem haver duas chamadas recursivas - uma para cada escolha possível.
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    mochila_r(itens, n - 1, cap);
+    mochila_r(itens, n - 1, cap - itens[n-1].peso);
+}
+```
+
+Não se preocupe, por enquanto, com a ordem em que essas chamadas serão realizadas. Lideremos com isso no próximo passo.
+
+**Passo 4**: não simularás e terás fé.
+
+??? Checkpoint
+Acredite que a função recursiva está fazendo o que deveria. O que cada chamada recursiva deveria retornar?
+
+Dica: Pense em alto nível, lembre que cada chamada da função recursiva representa uma possível escolha. Não se preocupe com o código por enquanto.
+
+::: Gabarito
+Como cada chamada recursiva representa uma escolha, então, se acreditarmos que a função fuciona como deve, a primeira chamada deve retornar o valor máximo que não inclui o item. Já a segunda chamada recursiva deve retornar o valor máximo que espera incluir o item, isto é, que conta que parte da capacidade estará ocupada por ele.
+
+Assim, podemos armazenar esses dois valores em duas variáveis [[excluir]] e [[incluir]].
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    int excluir = mochila_r(itens, n - 1, cap);
+    int incluir = itens[n-1].valor + mochila_r(itens, n - 1, cap - itens[n-1].peso);
+}
+```
+
+*Nota: perceba que para o valor de [[incluir]] é necessário somar o valor do item mais o maior valor da combinação na qual ele cabe.*
+:::
+???
+
+**Passo 5** (*feito*): você tem fé na resposta da chamada recursiva, então use-a.
+
+Com esses dois valores em mãos e muita fé, falta apenas uma etapa: compará-los. Como queremos o maior valor possível para ser carregado na mochila, vamos utilizar da função [[max]]. De forma que a função fique assim:
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    int excluir = mochila_r(itens, n - 1, cap);
+    int incluir = itens[n-1].valor + mochila_r(itens, n - 1, cap - itens[n-1].peso);
+
+    return max(excluir, incluir);
+}
+```
+
+**Passo 6**: isole o caso em que o parâmetro é o menor possível.
+
+??? Checkpoint
+Se estivéssemos excluindo todos os itens, qual seria o caso descrito pelo passo? E se, estivéssemos incluindo todos, existe outro parâmetro que pode atingir um mínimo?
+
+::: Gabarito
+A recursão vai precisar parar quando **não houver mais itens** ou quando **não houver mais espaço**:
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    if (n == 0 || cap == 0) {
+    }
+
+    int excluir = mochila_r(itens, n - 1, cap);
+    int incluir = itens[n-1].valor + mochila_r(itens, n - 1, cap - itens[n-1].peso);
+
+    return max(excluir, incluir);
+}
+```
+:::
+???
+
+**Passo 7** (*feito*): a solução desse caso é trivial, então calcule ela direto.
+
+Bom, se não há mais espaço ou itens, o retorno deverá ser 0. Ou seja: não há mais valor para ser agregado.
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    if (n == 0 || cap == 0) {
+        return 0;
+    }
+
+    int excluir = mochila_r(itens, n - 1, cap);
+    int incluir = itens[n-1].valor + mochila_r(itens, n - 1, cap - itens[n-1].peso);
+
+    return max(excluir, incluir);
+}
+```
+
+Então, agora a função de recursão está pronta? *Quase*.
+
+??? Checkpoint
+Há um pequeno problema no cálculo da variável [[incluir]]. Pense sobre a capacidade. Ela poderia, em algum momento, ser negativa? Tente entender como lidar com esse caso.
+
+Dica: Volte a lógica inicial de quando começamos a construir o algoritmo. Tem algum passo que estamos ignorando?
+
+::: Gabarito
+Quando a capacidade é negativa, significa que um item que não cabia na mochila foi adicionado. Assim, o cálculo da variável [[incluir]] fica incorreto. Poderíamos mudar o caso base, mas esse ajuste não lida com o fato de que o item passado, que não cabia, foi adicionado na mochila. 
+
+Dessa forma, é necessária uma outra condicional, que verifica **se o item cabe na mochila**.
+
+```c
+int mochila_r(item itens[], int n, int cap) {
+    if (n == 0 || cap == 0) {
+        return 0;
+    }
+
+    if (itens[n - 1].peso > cap) {
+        return mochila_r(itens, n - 1, cap);
+    } 
+
+    int incluir = itens[n - 1].valor + mochila_r(itens, n - 1, cap - itens[n - 1].peso);
+    int excluir = mochila_r(itens, n - 1, cap);
+    
+    return max(incluir, excluir);
+}
+```
+:::
+???
+
+Agora sim! O algoritmo montado funciona corretamente. Mas, como foi proposto, ele resolve o problema na **força bruta**. Qual será a sua complexidade? Será que isso pode ser um limitante?
 
 Cálculo de complexidade desse algoritmo
 ---------
 
-Vamos fazer o cálculo como aprendemos em aula, passo a passo de um algoritmo recursivo. 
+Vamos fazer o cálculo, como aprendemos em aula, passo a passo de um algoritmo recursivo. 
 
 Como o algoritmo recebe vários parâmetros, vamos analisar apenas em função do responsável pela recursão, o *n*.
 
 **Passo 1**
 
 ??? Checkpoint
-Fazer o sistema de complexidade
+Faça o sistema de complexidade.
 
 Dica: Faça para o *pior caso*, onde o item atual cabe na mochila, e temos que escolher se ele entra, ou não.
 
@@ -216,7 +400,7 @@ Fazer a árvore de recursão (essa fornecerei para vocês).
 **Passo 3**
 
 ??? Checkpoint
-Estimar a altura <font color="red">*h*</font> da árvore.
+Estime a altura (<font color="red">*h*</font>) da árvore.
 
 ::: Gabarito
 
@@ -246,7 +430,7 @@ No antepenúltimo andar *(h-2)*, ainda não chegamos na base.
 **Passo 4**
 
 ??? Checkpoint
-Estimar a soma de vermelhos (retornos)
+Estime a soma de <font color="red">vermelhos</font> (retornos).
 
 ::: Gabarito
 
@@ -280,6 +464,7 @@ $$
 \mathbf{O(2^n)}
 $$
 
+Ou seja, a complexidade do algoritmo aumenta exponencialmente conforme a quantidade de elementos que estão disponíveis. Isso significa que, dependendo do tamanho do vetor [[itens]] é impraticável utilizar dessa solução. Para isso, temos uma outra estatégia: a **Programação dinâmica**.
 
 Programação dinâmica 
 ---------
@@ -294,14 +479,14 @@ Na APS 3, trabalhamos com um problema inspirado na Biologia Computacional: medir
 
 Inicialmente, esse problema pode ser resolvido com **recursão**, mas isso rapidamente se torna um empecilho — a quantidade de chamadas cresce exponencialmente. 
 
-Foi aí que usamos a **Programação dinâmica**, uma técnica que quebra o problema em subproblemas menores, resolve cada um deles uma única vez, e guarda as soluções para reutilizar depois. Com isso, transformamos um algoritmo de complexidade altíssima em algo muito mais eficiente. 
+Foi aí que usamos a **Programação dinâmica**, uma técnica que quebra o problema em subproblemas menores, resolve cada um deles uma única vez, e **guarda as soluções** para reutilizar depois. Com isso, transformamos um algoritmo de complexidade altíssima em algo muito mais eficiente. 
 
-A ideia da Programação Dinâmica é evitar calcular a mesma coisa várias vezes.
+A ideia da Programação Dinâmica é **evitar calcular a mesma coisa várias vezes**.
 
 Esse mesmo raciocínio pode ser aplicado em diversos contextos — inclusive no nosso problema atual.
 
 ??? Checkpoint
-Considere o seguinte exemplo de 5 CPUs disponíveis para compra, cada uma com um custo e um desempenho associado. O orçamento disponível é 8.
+Considere o exemplo inicial das CPUs. Imagine que existam 5 CPUs disponíveis para compra, cada uma com um custo e um desempenho associado. O orçamento disponível é 8.
 
 | CPU | Custo | Desempenho |
 |-----|-------|-------------|
@@ -520,7 +705,6 @@ Assim, saímos de uma complexidade exponencial de  $O(2^n)$ para uma complexidad
 
 Essa abordagem é muito mais eficiente e torna viável resolver instâncias que seriam impraticáveis com força bruta.
 
-
 Agora, se quiser explorar um exemplo mais desafiador, considere o conjunto de CPUs abaixo com um orçamento total de 12 unidades
 
 
@@ -540,5 +724,3 @@ Agora, se quiser explorar um exemplo mais desafiador, considere o conjunto de CP
 
 Além disso, você pode testar seus próprios conjuntos de dados e orçamentos utilizando esta calculadora interativa online:
 👉 [Knapsack Calculator](https://augustineaykara.github.io/Knapsack-Calculator/) – by Augustine Aykara
-
-

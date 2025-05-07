@@ -56,22 +56,22 @@ Ao selecionar sempre o item mais leve até que a capacidade da mochila não seja
 3. Não cabe **C** (28 + 22 > 40).  
   
 
-   **Fim**: valor total = 28.
+   **Fim**: valor total = 28 (não é o maior possível).
 
 
-A estratégia de sempre escolher o item mais leve ignora completamente o **valor** de cada item.  
-
-Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que sejam incluídos itens um pouco mais pesados que, em conjunto, dariam um **valor total maior**.  
 
 Nesse caso, o maior valor que pode ser levado é **42**. Ele pode ser obtido ao selecionar os itens **B** (peso 18, valor 18) e **C** (peso 22, valor 24), cuja soma de pesos fica exatamente em **40** e soma de valores em **42**.
 :::
 
 ???
+A estratégia de sempre escolher o item mais leve ignora completamente o **valor** de cada item.  
+
+Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que sejam incluídos itens um pouco mais pesados que, em conjunto, dariam um **valor total maior**.  
 
 Ok. Já vimos que a abordagem anterior não dá certo. Então, vamos tentar ir por outro caminho: escolher sempre o item de **maior valor**.
 
 ??? Checkpoint
-Para o mesmo caso, tente resolver o problema dessa forma. Qual foi o valor total obtido? Qual o principal problema dessa nova abordagem?
+Para o mesmo caso, tente resolver o problema dessa forma. Qual foi o valor total obtido? Dessa vez, ele é o maior possível?
 
 ::: Gabarito 
 Seguindo esse método:  
@@ -81,15 +81,14 @@ Seguindo esse método:
 3. Não cabe **C** (36 + 22 > 40).  
   
 
-    **Fim**: valor total = 40.
- 
-O problema é que a estratégia de sempre escolher o item de maior valor ignora
-completamente o **peso** de cada item.  
-
-Com essa estratégia, a mochila pode acabar cheia com poucos itens **pesados**, deixando de fora combinações de itens ligeiramente mais **leves** que, juntos, poderiam dar um valor total maior — como **B + C**, que juntos valem **42**.
+    **Fim**: valor total = 40 (não é o maior possível).
 :::
 
 ???
+O problema é que a estratégia de sempre escolher o item de maior valor ignora
+completamente o **peso** de cada item.  
+
+Com essa estratégia, a mochila pode acabar cheia com poucos itens **pesados**, deixando de fora combinações de itens ligeiramente mais **leves** que, juntos, poderiam dar um valor total maior — como **B + C**, que juntos valem **42**.  
 
 Vamos tentar mais uma vez. Já vimos que não podemos considerar só um dos atributos e ignorar o outro. Portanto, vamos selecionar os itens a partir de uma relação entre eles: a partir de agora, escolheremos sempre o item que tem o **maior valor por unidade de peso** (pense como se fosse uma espécie de **“custo benefício”**).  
 
@@ -118,10 +117,7 @@ Preenchendo a mochila:
 
   
 
-    **Fim**: valor total = 40.
-  
-
-O valor total ainda **não foi maximizado**, já que o resultado foi 40, e não 42.
+    **Fim**: valor total = 40 (não é o maior possível).
 :::
 
 ???

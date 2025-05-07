@@ -167,19 +167,11 @@ Montando o algoritmo de forma recursiva
 ---------
 Para começar a produzir a solução do problema da mochila, vamos resumir a lógica que o algoritmo deverá seguir. 
 
-A ideia principal é que, para cada elemento dentro da lista de itens, devemos conferir se ele cabe ou não na mochila. Se ele não couber, o ignoramos. Se ele couber, o próximo passo é comparar as duas opções: a mochila com e sem o item.
+A ideia principal é que, para cada elemento dentro da lista de itens, devemos conferir se ele cabe ou não na mochila. Se ele não couber, o ignoramos. Se ele couber, o próximo passo é comparar as "duas" opções: todas as combinações da mochila que incluem o item e todas aquelas que o excluem.
 
-??? Checkpoint
-Durante a abordagem, descrevemos a comparação de dois valores: que incluem ou não um determinado item (*itens[i]*). Quando pensamos no “valor que não inclui o elemento”, ao que estamos nos referindo?
+Assim, quando descrevemos comparar os valores incluindo ou não um determinado elemento, precisamos comparar  **todas as possíveis combinações sem o elemento e com o elemento**. Para cada uma delas, primeiro determina-se se essa respeita a capacidade limite e, depois, o seu valor que será comparado. 
 
-::: Gabarito
-O valor que não inclui o elemento é o maior valor que pode ser acumulado (respeitando a capacidade) em todas as combinações possíveis até *itens[i-1]*. Essa comparação precisará ser feita várias vezes. Mais especificamente para cada valor associado a cada possível combinação até *itens[i-1]*.
-:::
-???
-
-Assim, para cada item, será necessário conferir todas as possíveis combinações que esse pode formar. A todas essas combinações determina-se, primeiro, se essa respeita a capacidade limite e, depois, o seu valor.
-
-Assim, quando descrevemos comparar os valores incluindo ou não um determinado elemento, precisamos comparar  **todas as possíveis combinações sem o elemento e com o elemento**. Para melhor entender essa descrição, observe a demonstração visual, com apenas três itens.
+Para melhor entender essa descrição, observe a demonstração visual, com apenas três itens.
 
 :demo
 

@@ -31,7 +31,7 @@ Dito isso, fica a pergunta: como escolher o que levar na mochila?
 
 Bom, vamos pensar primeiro em abordagens intuitivas, sem pensar muito nas consequências. 
 
-Uma primeira possibilidade seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de itens. Para ilustrar essa abordagem, vamos considerar uma mochila com **capacidade igual a 40 unidades de peso** e quatro itens disponíveis:
+Para ilustrar as abordagens a seguir, vamos considerar uma mochila com **capacidade igual a 40 unidades de peso** e quatro itens disponíveis:
 
 | Item | Peso | Valor |
 |------|------|-------|
@@ -40,6 +40,15 @@ Uma primeira possibilidade seria escolher sempre o item mais **leve**, de forma 
 | C    | 22   | 24    |
 | D    | 26   | 30    |
 
+Uma primeira possibilidade seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de itens. 
+
+??? Checkpoint
+
+Faça uma tentativa de completar a Mochila, considerando a sugestão dada.
+
+Essa é a melhor solução possível? Tente calcular o maior valor total possível para esse caso.
+
+::: Gabarito
 Ao selecionar sempre o item mais leve até que a capacidade da mochila não seja suficiente, temos o seguinte resultado:
 
 1. Seleciona **A** (peso total = 10, valor total = 10).  
@@ -47,14 +56,10 @@ Ao selecionar sempre o item mais leve até que a capacidade da mochila não seja
 3. Não cabe **C** (28 + 22 > 40).  
   
 
-    **Fim**: valor total = 28.
+   **Fim**: valor total = 28.
 
-??? Checkpoint
-A estratégia acima tem um problema. Qual? Tente calcular o maior valor total possível para esse caso.
 
-::: Gabarito  
-A estratégia de sempre escolher o item mais leve ignora completamente o
-**valor** de cada item.  
+A estratégia de sempre escolher o item mais leve ignora completamente o **valor** de cada item.  
 
 Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que sejam incluídos itens um pouco mais pesados que, em conjunto, dariam um **valor total maior**.  
 
@@ -62,6 +67,7 @@ Nesse caso, o maior valor que pode ser levado é **42**. Ele pode ser obtido ao 
 :::
 
 ???
+
 Ok. Já vimos que a abordagem anterior não dá certo. Então, vamos tentar ir por outro caminho: escolher sempre o item de **maior valor**.
 
 ??? Checkpoint

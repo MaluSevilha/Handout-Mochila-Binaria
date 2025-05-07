@@ -8,7 +8,7 @@ Objetivo do Handout
 
 O objetivo essencial do handout é explicar o problema da mochila binária, proposto e entrelaçado com os conceitos apresentados na disciplina [Desafios de Programação](https://ensino.hashi.pro.br/desprog/).
 
-- Relembrar o processo de contrução de funções recursivas;
+- Relembrar o processo de construção de funções recursivas;
 - Relembrar o processo de cálculo de complexidade;
 - Relembrar conceitos relacionados à programação dinâmica;  
 - Associar o problema a situações reais;  
@@ -130,12 +130,6 @@ Abordagem força bruta
 ---------
 
 Podemos utilizar da força bruta para gerar todas as possibilidades de mochila e escolher a combinação que gera o maior valor total.  
-
-!!! Aviso  
-A ordem em que os itens são colocados não é relevante para a mochila, já que as únicas propriedades que importam são a soma dos pesos (para determinar se um conjunto é válido) e a soma de valores dos elementos.  
-
-Dessa forma, **dois conjuntos são diferentes apenas se possuem elementos diferentes**.
-!!!  
 
 Com todas as possibilidades criadas, é necessário “apenas”, armazenar o conjunto que devolve o maior valor gerado, sem ultrapassar a capacidade máxima, até que todas as opções tenham sido percorridas.  
 

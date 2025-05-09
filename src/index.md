@@ -715,3 +715,23 @@ Agora, se quiser explorar um exemplo mais desafiador, considere o conjunto de CP
 
 Além disso, você pode testar seus próprios conjuntos de dados e orçamentos utilizando esta calculadora interativa online:
 👉 [Knapsack Calculator](https://augustineaykara.github.io/Knapsack-Calculator/) – by Augustine Aykara
+
+## Complexidade do algoritmo de Programação Dinâmica
+
+Com essa proposta construída, será que ela consegue ser menos complexa do que a força bruta? Vamos confirmar isso.
+
+??? Checkpoint
+
+Pensando em alto nível, qual a complexidade dessa proposta de resolução?
+
+Dica: a principal atividade do algortimo é preencher uma tabela de dimensão *n* (quantidade de itens) por *W* (capacidade ou orçamento máximo).
+
+::: Gabarito
+
+Como a função do algoritmo é preencher a tabela e, para isso, utiliza de soluções armazenadas na mesma, a sua complexidade é de preencher a matriz. Dessa forma, como as dimensões da tabela são $W$ e $n$, temos que a complexidade do algoritmo é: **O(w*n)**
+
+Repare que, nesse caso, ambos os elementos são recebidos pelo algoritmo (são parâmetros), de forma que não seja possível simplificar a complexidade para O(n). Para melhor entender isso, imagine que a capacidade máxima seja igual a $n$.
+
+:::
+
+???

@@ -138,11 +138,10 @@ Com todas as possibilidades criadas, é necessário “apenas”, armazenar o co
 ??? Checkpoint
 Dada a descrição da abordagem, sem fazer cálculos, qual você imagina que seja a complexidade do algoritmo?
 
+Dica: pense que, para cada elemento, a duas possibilidades (ele pode ser incluído ou não)
+
 ::: Gabarito 
 Como todas as combinações devem ser testadas, a complexidade do algoritmo está associada ao processo de formação de todas essas combinações. Como cada elemento pode ou não ser adicionado, então a complexidade do elemento deve ser $O(2^n)$.
-:::
-
-???  
 
 Se ainda não estiver convencido que essa é a complexidade desse algoritmo, veja a tabela abaixo, que demonstra todas as possíveis combinações. Nessa, *0* representa não incluir e *1*, incluir. A coluna de *i* conta quantas combinações são possíveis.
 
@@ -159,7 +158,11 @@ Combinações com 3 itens (*n* = 3):
 | 0 | 1 | 1 | 7 |
 | 1 | 1 | 1 | 8 |
 
-Se ainda não estiver convencido, tente simular essa mesma tabela com mais ou menos itens.
+Se ainda não estiver convencido dessa resposta, tente simular essa mesma tabela com mais ou menos itens.
+
+:::
+
+???  
 
 Visualizando essa solução, nos deparamos com um desafio: como geraremos todas as possíveis combinações? Como que conseguiremos armazenar, para cada uma delas, o valor e o peso? Para resolver usando a força bruta, utilizaremos de um algoritmo recursivo. 
 

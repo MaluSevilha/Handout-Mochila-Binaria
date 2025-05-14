@@ -1,5 +1,4 @@
-import pkg from 'del';
-const { deleteSync } = pkg;
+import del from 'del';
 import gulp from 'gulp';
 import cache from 'gulp-cached';
 import BrowserSync from 'browser-sync';
@@ -18,7 +17,7 @@ const ASSETS = ['resources/**/css/*', 'resources/**/fonts/*', 'resources/**/icon
 
 
 function clean(done) {
-    deleteSync(['site/*', 'site_private/*']);
+    del.sync(['site/*', 'site_private/*']);
     done();
 }
 

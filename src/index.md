@@ -862,7 +862,7 @@ Agora, se quiser explorar um exemplo mais desafiador, considere o conjunto de CP
 | H   | 4     | 36         |
 
 
-:simu2
+:simu3
 
 Além disso, você pode testar seus próprios conjuntos de dados e orçamentos utilizando esta calculadora interativa online:
 👉 [Knapsack Calculator](https://augustineaykara.github.io/Knapsack-Calculator/) – by Augustine Aykara

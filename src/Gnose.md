@@ -8,7 +8,7 @@ Objetivo do Handout
 
 O objetivo essencial do handout é explicar o problema da mochila binária, proposto e entrelaçado com os conceitos apresentados na disciplina [Desafios de Programação](https://ensino.hashi.pro.br/desprog/).
 
-- Relembrar o processo de construção de funções recursivas;
+- Relembrar o processo de contrução de funções recursivas;
 - Relembrar o processo de cálculo de complexidade;
 - Relembrar conceitos relacionados à programação dinâmica;  
 - Associar o problema a situações reais;  
@@ -31,7 +31,7 @@ Dito isso, fica a pergunta: como escolher o que levar na mochila?
 
 Bom, vamos pensar primeiro em abordagens intuitivas, sem pensar muito nas consequências. 
 
-Para ilustrar as abordagens a seguir, vamos considerar uma mochila com **capacidade igual a 40 unidades de peso** e quatro itens disponíveis:
+Uma primeira possibilidade seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de itens. Para ilustrar essa abordagem, vamos considerar uma mochila com **capacidade igual a 40 unidades de peso** e quatro itens disponíveis:
 
 | Item | Peso | Valor |
 |------|------|-------|
@@ -40,15 +40,6 @@ Para ilustrar as abordagens a seguir, vamos considerar uma mochila com **capacid
 | C    | 22   | 24    |
 | D    | 26   | 30    |
 
-Uma primeira possibilidade seria escolher sempre o item mais **leve**, de forma a levar a maior quantidade possível de itens. 
-
-??? Checkpoint
-
-Faça uma tentativa de completar a Mochila, considerando a sugestão dada.
-
-Essa é a melhor solução possível? Tente calcular o maior valor total possível para esse caso.
-
-::: Gabarito
 Ao selecionar sempre o item mais leve até que a capacidade da mochila não seja suficiente, temos o seguinte resultado:
 
 1. Seleciona **A** (peso total = 10, valor total = 10).  
@@ -56,22 +47,25 @@ Ao selecionar sempre o item mais leve até que a capacidade da mochila não seja
 3. Não cabe **C** (28 + 22 > 40).  
   
 
-   **Fim**: valor total = 28 (não é o maior possível).
+    **Fim**: valor total = 28.
 
+??? Checkpoint
+A estratégia acima tem um problema. Qual? Tente calcular o maior valor total possível para esse caso.
 
+::: Gabarito  
+A estratégia de sempre escolher o item mais leve ignora completamente o
+**valor** de cada item.  
+
+Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que sejam incluídos itens um pouco mais pesados que, em conjunto, dariam um **valor total maior**.  
 
 Nesse caso, o maior valor que pode ser levado é **42**. Ele pode ser obtido ao selecionar os itens **B** (peso 18, valor 18) e **C** (peso 22, valor 24), cuja soma de pesos fica exatamente em **40** e soma de valores em **42**.
 :::
 
 ???
-A estratégia de sempre escolher o item mais leve ignora completamente o **valor** de cada item.  
-
-Assim, ela pode encher a mochila com itens de **baixo valor**, impedindo que sejam incluídos itens um pouco mais pesados que, em conjunto, dariam um **valor total maior**.  
-
 Ok. Já vimos que a abordagem anterior não dá certo. Então, vamos tentar ir por outro caminho: escolher sempre o item de **maior valor**.
 
 ??? Checkpoint
-Para o mesmo caso, tente resolver o problema dessa forma. Qual foi o valor total obtido? Dessa vez, ele é o maior possível?
+Para o mesmo caso, tente resolver o problema dessa forma. Qual foi o valor total obtido? Qual o principal problema dessa nova abordagem?
 
 ::: Gabarito 
 Seguindo esse método:  
@@ -81,14 +75,15 @@ Seguindo esse método:
 3. Não cabe **C** (36 + 22 > 40).  
   
 
-    **Fim**: valor total = 40 (não é o maior possível).
-:::
-
-???
+    **Fim**: valor total = 40.
+ 
 O problema é que a estratégia de sempre escolher o item de maior valor ignora
 completamente o **peso** de cada item.  
 
-Com essa estratégia, a mochila pode acabar cheia com poucos itens **pesados**, deixando de fora combinações de itens ligeiramente mais **leves** que, juntos, poderiam dar um valor total maior — como **B + C**, que juntos valem **42**.  
+Com essa estratégia, a mochila pode acabar cheia com poucos itens **pesados**, deixando de fora combinações de itens ligeiramente mais **leves** que, juntos, poderiam dar um valor total maior — como **B + C**, que juntos valem **42**.
+:::
+
+???
 
 Vamos tentar mais uma vez. Já vimos que não podemos considerar só um dos atributos e ignorar o outro. Portanto, vamos selecionar os itens a partir de uma relação entre eles: a partir de agora, escolheremos sempre o item que tem o **maior valor por unidade de peso** (pense como se fosse uma espécie de **“custo benefício”**).  
 
@@ -117,7 +112,10 @@ Preenchendo a mochila:
 
   
 
-    **Fim**: valor total = 40 (não é o maior possível).
+    **Fim**: valor total = 40.
+  
+
+O valor total ainda **não foi maximizado**, já que o resultado foi 40, e não 42.
 :::
 
 ???
@@ -133,15 +131,22 @@ Abordagem força bruta
 
 Podemos utilizar da força bruta para gerar todas as possibilidades de mochila e escolher a combinação que gera o maior valor total.  
 
+!!! Aviso  
+A ordem em que os itens são colocados não é relevante para a mochila, já que as únicas propriedades que importam são a soma dos pesos (para determinar se um conjunto é válido) e a soma de valores dos elementos.  
+
+Dessa forma, **dois conjuntos são diferentes apenas se possuem elementos diferentes**.
+!!!  
+
 Com todas as possibilidades criadas, é necessário “apenas”, armazenar o conjunto que devolve o maior valor gerado, sem ultrapassar a capacidade máxima, até que todas as opções tenham sido percorridas.  
 
 ??? Checkpoint
 Dada a descrição da abordagem, sem fazer cálculos, qual você imagina que seja a complexidade do algoritmo?
 
-Dica: pense que, para cada elemento, a duas possibilidades (ele pode ser incluído ou não)
-
 ::: Gabarito 
 Como todas as combinações devem ser testadas, a complexidade do algoritmo está associada ao processo de formação de todas essas combinações. Como cada elemento pode ou não ser adicionado, então a complexidade do elemento deve ser $O(2^n)$.
+:::
+
+???  
 
 Se ainda não estiver convencido que essa é a complexidade desse algoritmo, veja a tabela abaixo, que demonstra todas as possíveis combinações. Nessa, *0* representa não incluir e *1*, incluir. A coluna de *i* conta quantas combinações são possíveis.
 
@@ -158,11 +163,7 @@ Combinações com 3 itens (*n* = 3):
 | 0 | 1 | 1 | 7 |
 | 1 | 1 | 1 | 8 |
 
-Se ainda não estiver convencido dessa resposta, tente simular essa mesma tabela com mais ou menos itens.
-
-:::
-
-???  
+Se ainda não estiver convencido, tente simular essa mesma tabela com mais ou menos itens.
 
 Visualizando essa solução, nos deparamos com um desafio: como geraremos todas as possíveis combinações? Como que conseguiremos armazenar, para cada uma delas, o valor e o peso? Para resolver usando a força bruta, utilizaremos de um algoritmo recursivo. 
 
@@ -170,11 +171,19 @@ Montando o algoritmo de forma recursiva
 ---------
 Para começar a produzir a solução do problema da mochila, vamos resumir a lógica que o algoritmo deverá seguir. 
 
-A ideia principal é que, para cada elemento dentro da lista de itens, devemos conferir se ele cabe ou não na mochila. Se ele não couber, o ignoramos. Se ele couber, o próximo passo é comparar as "duas" opções: todas as combinações da mochila que incluem o item e todas aquelas que o excluem.
+A ideia principal é que, para cada elemento dentro da lista de itens, devemos conferir se ele cabe ou não na mochila. Se ele não couber, o ignoramos. Se ele couber, o próximo passo é comparar as duas opções: a mochila com e sem o item.
 
-Assim, quando descrevemos comparar os valores incluindo ou não um determinado elemento, precisamos comparar  **todas as possíveis combinações sem o elemento e com o elemento**. Para cada uma delas, primeiro determina-se se essa respeita a capacidade limite e, depois, o seu valor que será comparado. 
+??? Checkpoint
+Durante a abordagem, descrevemos a comparação de dois valores: que incluem ou não um determinado item (*itens[i]*). Quando pensamos no “valor que não inclui o elemento”, ao que estamos nos referindo?
 
-Para melhor entender essa descrição, observe a demonstração visual, com apenas três itens.
+::: Gabarito
+O valor que não inclui o elemento é o maior valor que pode ser acumulado (respeitando a capacidade) em todas as combinações possíveis até *itens[i-1]*. Essa comparação precisará ser feita várias vezes. Mais especificamente para cada valor associado a cada possível combinação até *itens[i-1]*.
+:::
+???
+
+Assim, para cada item, será necessário conferir todas as possíveis combinações que esse pode formar. A todas essas combinações determina-se, primeiro, se essa respeita a capacidade limite e, depois, o seu valor.
+
+Assim, quando descrevemos comparar os valores incluindo ou não um determinado elemento, precisamos comparar  **todas as possíveis combinações sem o elemento e com o elemento**. Para melhor entender essa descrição, observe a demonstração visual, com apenas três itens.
 
 :demo
 
@@ -550,7 +559,7 @@ As linhas da tabela representam **combinações** de itens considerados até dad
 
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma       | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+| **Nenhuma**       | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
 | A                 | ? | ? | ? | ? | ? | ? | ? | ? | ? |
 | A, B              | ? | ? | ? | ? | ? | ? | ? | ? | ? |
 | A, B, C           | ? | ? | ? | ? | ? | ? | ? | ? | ? |
@@ -558,11 +567,11 @@ As linhas da tabela representam **combinações** de itens considerados até dad
 | A, B, C, D, E     | ? | ? | ? | ? | ? | ? | ? | ? | ? |
 
 ??? Checkpoint
-A primeira linha representa a situação em que nenhum item foi considerado ainda. Nesse caso, qual é o valor máximo de desempenho para cada orçamento?
+A primeira linha representa a situação em que nenhum item foi considerado ainda. Nesse caso, quais seriam os valores máximos de desempenho para cada orçamento?
 
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
-| **Nenhuma**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+| Nenhuma           | ? | ? | ? | ? | ? | ? | ? | ? | ? |
 
 
 ::: Gabarito
@@ -570,7 +579,7 @@ Se nenhum item foi considerado ainda, para qualquer orçamento, o valor máximo 
 
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
-| **Nenhuma**         | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **0** |
+| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 :::
 
@@ -579,7 +588,7 @@ Se nenhum item foi considerado ainda, para qualquer orçamento, o valor máximo 
 
 ---
 
-### Ótimo. Agora que a primeira linha já está preenchida, vamos preencher as outras, uma de cada vez. A próxima linha representa a situação em que apenas a CPU A é considerada.
+### Etapa 2: Considerando apenas a CPU A
 
 <br>
 
@@ -592,28 +601,27 @@ Se nenhum item foi considerado ainda, para qualquer orçamento, o valor máximo 
 
 ??? Checkpoint
 
-Nessa situação, qual é o valor máximo de desempenho para cada orçamento?
+Gustacvo Gay?
 
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
 |  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | **A**             | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+| A, B              | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+| A, B, C           | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+| A, B, C, D        | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+| A, B, C, D, E     | ? | ? | ? | ? | ? | ? | ? | ? | ? |
 
 
 ::: Gabarito
-| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| **A**             | **0** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** |
-
-Para qualquer orçamento (exceto o 0), o valor máximo de desempenho é **1**. Isso é verdade porque, como a CPU A cabe em todos esses orçamentos, ela é a melhor escolha possível, pois não há outra CPU sendo considerada ainda.
+Porque a CPU A cabe em todos esses orçamentos, e ela oferece desempenho 1. Como não há outra CPU ainda, essa é a melhor escolha possível.
 :::
 
 ???
 
 ---
 
-### Ainda está muito fácil. Vamos dar um "up" na dificuldade. Considere agora duas CPUs: A e B.  
+### Etapa 3: Considerando as CPUs A e B
 
 <br>
 
@@ -622,205 +630,93 @@ Para qualquer orçamento (exceto o 0), o valor máximo de desempenho é **1**. I
 | A   | 1     | 1           |
 | B   | 3     | 4           |
 
-<br>
+
 
 ??? Checkpoint
-Preencha a linha para esse caso. Dica: antes de olhar para o diagrama, **pense em alto nível**.
 
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
 |  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| A            | ? | ? | ? | ? | ? | ? | ? | ? | ? |
 | **A, B**             | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+| A, B, C           | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+| A, B, C, D        | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+| A, B, C, D, E     | ? | ? | ? | ? | ? | ? | ? | ? | ? |
+
+Por que a célula (A e B, orçamento 4) ficou com valor 5?
 
 ::: Gabarito
-| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| **A, B**             | **0** | **1** | **1** | **4** | **5** | **5** | **5** | **5** | **5** |
-
-Até o orçamento 2, **só podemos encaixar A**, e portanto o desempenho máximo se mantém em **1**. Porém, quando chegamos no orçamento 3, a situação muda: podemos **incluir B**. Assim, o desempenho máximo é **4** (desempenho de B). Isso também muda a partir do orçamento 4, em que podemos incluir **ambas**, transformando o valor máximo em **4(B) + 1(A) = 5**.
+Podemos usar a CPU B (custo 3), restando orçamento 1. A linha anterior (só A) com orçamento 1 tem valor 1.  
+Logo: 4 (B) + 1 (restante) = **5**.  
+Essa é a melhor opção nesse caso.
 :::
 
 ???
 
 ---
 
+### Etapa 4: Considerando as CPUs A, B e C
+
 <br>
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A, B e C      | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
 
 ??? Checkpoint
-Preencha a próxima linha, para o caso ABC. 
-
-| CPU | Custo | Desempenho |
-|-----|-------|-------------|
-| A   | 1     | 1           |
-| B   | 3     | 4           |
-| C   | 4     | 5           |
-
-<br>
-  
-| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B             | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| **A, B, C**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+Explique por que a célula (A, B e C, orçamento 7) tem valor 9.
 
 ::: Gabarito
-| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B             | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| **A, B, C**         | **0** | **1** | **1** | **4** | **5** | **6** | **6** | **9** | **10** |
-
-- Orç. 0 – 2 → só cabe a CPU A (custo 1), portanto o desempenho máximo permanece 1.
-
-- Orç. 3 → passa a caber a CPU B (custo 3, desp. 4); trocar A por B eleva o máximo para 4.
-
-- Orç. 4 → duas alternativas empatadas em 5:
-
-    -- A + B (1 + 3 = 4 → 1 + 4 = 5)
-
-    -- C sozinho (custo 4, desp. 5).
-
-- Orç. 5 → melhora ao combinar A + C (1 + 4 = 5 → 1 + 5 = 6).
-
-- Orç. 6 → nenhuma nova combinação supera 6 (B + C ainda custa 7).
-
-- Orç. 7 → agora cabe B + C (3 + 4 = 7 → 4 + 5 = 9).
-
-- Orç. 8 → cabe o trio A + B + C (1 + 3 + 4 = 8) atingindo o desempenho máximo de 10.
+CPU C custa 4, sobra orçamento 3. A linha anterior (A e B) com orçamento 3 tem valor 4.  
+5 (CPU C) + 4 (melhor com restante 3) = **9**
 :::
 
 ???
 
 ---
 
+### Etapa 5: Considerando as CPUs A, B, C e D
+
 <br>
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A, B, C e D   | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
 
 ??? Checkpoint
-Preencha a próxima linha, para o caso ABCD. 
-
-| CPU | Custo | Desempenho |
-|-----|-------|-------------|
-| A   | 1     | 1           |
-| B   | 3     | 4           |
-| C   | 4     | 5           |
-| D   | 5     | 7           |
-
-<br>
-  
-| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| **A, B, C, D**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+Na célula (A, B, C e D, orçamento 8), qual foi o raciocínio?
 
 ::: Gabarito
-| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| **A, B, C, D**         | **0** | **1** | **1** | **4** | **5** | **7** | **8** | **9** | **11** |
-
-- Orç. 0 – 2 → só cabe a CPU A (custo 1), logo o desempenho máximo permanece 1.
-
-- Orç. 3 → passa a caber a CPU B (custo 3, desp. 4); trocar A por B eleva o máximo para 4.
-
-- Orç. 4 → duas alternativas empatadas em 5:
-
-    -- A + B → 1 + 3 = 4 → 1 + 4 = 5
-
-    -- C sozinho → custo 4, desp. 5
-
-- Orç. 5 → entra a CPU D (custo 5, desp. 7), superando qualquer outra combinação; máximo sobe para 7.
-
-- Orç. 6 → melhor combinação é A + D (1 + 5 = 6 → 1 + 7 = 8); nenhuma outra supera 8.
-
-- Orç. 7 → agora cabe B + C (3 + 4 = 7 → 4 + 5 = 9), que se torna o novo máximo 9.
-
-- Orç. 8 → duas possibilidades cabem, mas a melhor é:
-
-    -- B + D → 3 + 5 = 8 → 4 + 7 = 11 (máximo)
-
-    -- A + B + C → 1 + 3 + 4 = 8 → 10 (não supera 11)
+CPU D custa 5, sobra orçamento 3. A linha anterior (A, B e C) com orçamento 3 tem valor 4.  
+7 (D) + 4 = **11**, melhor que a opção sem D (10).
 :::
 
 ???
 
 ---
 
+### Etapa 6: Considerando as CPUs A, B, C, D e E
+
 <br>
+
+| Orçamento     | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---------------|---|---|---|---|---|---|---|---|---|
+| A, B, C, D, E | 0 | 1 | 2 | 4 | 5 | 7 | 8 | 9 | 11 |
 
 ??? Checkpoint
-Preencha a próxima linha, para o caso ABCDE. 
-
-| CPU | Custo | Desempenho |
-|-----|-------|-------------|
-| A   | 1     | 1           |
-| B   | 3     | 4           |
-| C   | 4     | 5           |
-| D   | 5     | 7           |
-| E   | 2     | 2           |
-
-<br>
-  
-| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
-| **A, B, C, D, E**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+Na célula (A, B, C, D e E, orçamento 2), por que usamos a CPU E?
 
 ::: Gabarito
-| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
-| **A, B, C, D, E**         | **0** | **1** | **2** | **4** | **5** | **7** | **8** | **9** | **11** |
-
-- Orç. 0 → nenhum chip cabe; desempenho máximo 0.
-
-- Orç. 1 → só cabe a CPU A (custo 1, desp. 1) ⇒ desempenho 1.
-
-- Orç. 2 → agora cabe a CPU E (custo 2, desp. 2), que supera A ⇒ desempenho 2.
-
-- Orç. 3 → cabe a CPU B (custo 3, desp. 4); trocar E por B eleva o máximo para 4.
-
-- Orç. 4 → duas alternativas empatadas em 5:
-
-    -- A + B → 1 + 3 = 4 → 1 + 4 = 5
-
-    -- C sozinho → custo 4, desp. 5
-
-- Orç. 5 → a melhor escolha passa a ser D (custo 5, desp. 7) ⇒ máximo 7.
-
-- Orç. 6 → melhor combinação é A + D (1 + 5 = 6 → 1 + 7 = 8) ⇒ desempenho 8.
-
-- Orç. 7 → cabe B + C (3 + 4 = 7 → 4 + 5 = 9) ⇒ desempenho 9.
-
-- Orç. 8 → melhor combinação é B + D (3 + 5 = 8 → 4 + 7 = 11) ⇒ desempenho 11.
+CPU E custa 2, sobra 0. Valor da linha anterior em 0 é 0.  
+2 (E) + 0 = **2**  
+É melhor que manter valor anterior (1).
 :::
 
 ???
 
 ---
 
-<br>
-
-??? Checkpoint
-O que representa o valor da **última célula da tabela** (linha A, B, C, D e E; coluna 8)?
+### Etapa final: Análise da última célula
 
 <br>
 
@@ -832,6 +728,11 @@ O que representa o valor da **última célula da tabela** (linha A, B, C, D e E;
 | A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
 | A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
 | A, B, C, D, E     | 0 | 1 | 2 | 4 | 5 | 7 | 8 | 9 | 11 |
+
+<br>
+
+??? Checkpoint
+O que representa o valor da **última célula da tabela** (linha A, B, C, D e E; coluna 8)?
 
 ::: Gabarito
 Representa o **melhor desempenho possível com orçamento 8**, considerando **todas as CPUs disponíveis**.  
@@ -866,23 +767,3 @@ Agora, se quiser explorar um exemplo mais desafiador, considere o conjunto de CP
 
 Além disso, você pode testar seus próprios conjuntos de dados e orçamentos utilizando esta calculadora interativa online:
 👉 [Knapsack Calculator](https://augustineaykara.github.io/Knapsack-Calculator/) – by Augustine Aykara
-
-## Complexidade do algoritmo de Programação Dinâmica
-
-Com essa proposta construída, será que ela consegue ser menos complexa do que a força bruta? Vamos confirmar isso.
-
-??? Checkpoint
-
-Pensando em alto nível, qual a complexidade dessa proposta de resolução?
-
-Dica: a principal atividade do algortimo é preencher uma tabela de dimensão *n* (quantidade de itens) por *W* (capacidade ou orçamento máximo).
-
-::: Gabarito
-
-Como a função do algoritmo é preencher a tabela e, para isso, utiliza de soluções armazenadas na mesma, a sua complexidade é de preencher a matriz. Dessa forma, como as dimensões da tabela são $W$ e $n$, temos que a complexidade do algoritmo é: **O(w*n)**
-
-Repare que, nesse caso, ambos os elementos são recebidos pelo algoritmo (são parâmetros), de forma que não seja possível simplificar a complexidade para O(n). Para melhor entender isso, imagine que a capacidade máxima seja igual a $n$.
-
-:::
-
-???

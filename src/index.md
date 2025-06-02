@@ -624,23 +624,93 @@ Para qualquer orçamento (exceto o 0), o valor máximo de desempenho é **1**. I
 
 <br>
 
+### Obviamente, nenhuma CPU cabe em orçamento 0, então a primeira célula dessa linha será **0**.  
+
+<br>
+
+| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|------------------------------|---|---|---|---|---|---|---|---|---|
+| Nenhuma                      | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A                            | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| **A, B**                     | **0** | ? | ? | ? | ? | ? | ? | ? | ? |
+
+<br>
+
 ??? Checkpoint
-Preencha a linha para esse caso. Dica: antes de olhar para o diagrama, **pense em alto nível**.
+Vamos devagar. Tente preencher a próxima célula dessa linha. Dica: **leia o diagrama novamente**.
 
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
 |  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| **A, B**             | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+| **A, B**                     | 0 | **?** | ? | ? | ? | ? | ? | ? | ? |
 
 ::: Gabarito
 | CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
 |  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| **A, B**             | **0** | **1** | **1** | **4** | **5** | **5** | **5** | **5** | **5** |
+| A             | 0 | **1** | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| **A, B**                     | 0 | **1** | ? | ? | ? | ? | ? | ? | ? |
 
-Até o orçamento 2, **só podemos encaixar A**, e portanto o desempenho máximo se mantém em **1**. Porém, quando chegamos no orçamento 3, a situação muda: podemos **incluir B**. Assim, o desempenho máximo é **4** (desempenho de B). Isso também muda a partir do orçamento 4, em que podemos incluir **ambas**, transformando o valor máximo em **4(B) + 1(A) = 5**.
+- **Item na linha:** B (custo = 3, valor = 4)  
+- **Orçamento da coluna:** 1  
+- **Cabe?** 3 > 1 → **não cabe**  
+- **Então:** copiar valor da **célula de cima** → (linha “A”, w = 1) = **1**  
+
+**Valor final** → **(A, B ; w = 1) = 1**
+
+**Células utilizadas:**
+- (linha “A”, orçamento 1) — vizinha de cima
+:::
+
+???
+
+---
+<br>
+
+### O caso da próxima célula é similar, em que o orçamento **ainda é menor que 3** (custo de B), e portanto **o valor da célula de cima também é copiado.**  
+
+<br>
+
+| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|------------------------------|---|---|---|---|---|---|---|---|---|
+| Nenhuma                      | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A                            | 0 | 1 | **1** | 1 | 1 | 1 | 1 | 1 | 1 |
+| **A, B**                     | 0 | 1 | **1** | ? | ? | ? | ? | ? | ? |
+
+<br>
+
+??? Checkpoint
+Ainda considerando o raciocínio mostrado no diagrama, tente preencher a **próxima célula** dessa linha. 
+
+| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|-------------------|---|---|---|---|---|---|---|---|---|
+|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| **A, B**                     | 0 | 1 | 1 | **?** | ? | ? | ? | ? | ? |
+
+::: Gabarito
+| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|-------------------|---|---|---|---|---|---|---|---|---|
+|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A             | **0** | 1 | 1 | **1** | 1 | 1 | 1 | 1 | 1 |
+| **A, B**                     | 0 | 1 | 1 | **4** | ? | ? | ? | ? | ? |
+
+- **Item na linha:** B (custo = 3, valor = 4)  
+- **Orçamento da coluna:** 3  
+- **Cabe?** 3 ≤ 3 → **cabe**  
+- **Opção 1 (não incluir B):** copiar valor de cima → **célula (“A”, w = 3)** = **1**  
+- **Opção 2 (incluir B):** 4 (valor de B) + **célula (“A”, w = 0)** = 0 ⇒ **4**  
+- **Escolher o maior:** max(1, 4) = **4**  
+
+**Valor final** → **(A, B ; w = 3) = 4**
+  
+
+**Células utilizadas:** 
+- (linha “A”, orçamento 3) — vizinha de cima  
+- (linha “A”, orçamento 0) — três colunas à esquerda e uma linha acima
+
+Vale ressaltar que, em diversas ocasiões, as células utilizadas para o cálculo **não serão somente vizinhas.** Essa é uma delas.
 :::
 
 ???
@@ -650,7 +720,7 @@ Até o orçamento 2, **só podemos encaixar A**, e portanto o desempenho máximo
 <br>
 
 ??? Checkpoint
-Preencha a próxima linha, para o caso ABC. 
+Vamos ver se você entendeu. Preencha a célula destacada.
 
 | CPU | Custo | Desempenho |
 |-----|-------|-------------|
@@ -660,40 +730,35 @@ Preencha a próxima linha, para o caso ABC.
 
 <br>
   
-| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
-|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B             | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| **A, B, C**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
+| A, B, C           | 0 | 1 | 1 | 4 | 5 | **?** | ? | ? | ? |
 
 ::: Gabarito
-| CPUs consideradas/ Orçamento | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |-------------------|---|---|---|---|---|---|---|---|---|
-|  Nenhuma          | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A             | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B             | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| **A, B, C**         | **0** | **1** | **1** | **4** | **5** | **6** | **6** | **9** | **10** |
+| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| A, B              | 0 | **1** | 1 | 4 | 5 | **5** | 5 | 5 | 5 |
+| A, B, C           | 0 | 1 | 1 | 4 | 5 | **6** | ? | ? | ? |
 
-- Orç. 0 – 2 → só cabe a CPU A (custo 1), portanto o desempenho máximo permanece 1.
+- **Item na linha:** C (custo = 4, valor = 5)  
+- **Orçamento da coluna:** 5  
 
-- Orç. 3 → passa a caber a CPU B (custo 3, desp. 4); trocar A por B eleva o máximo para 4.
+- **Cabe?** 4 ≤ 5 → **cabe**  
+- **Opção 1 (não incluir C):** copiar valor de cima → **célula (“A, B”, w = 5)** = **5**  
+- **Opção 2 (incluir C):** 5 (valor de C) + **célula (“A, B”, w = 1)** = 1 ⇒ **6**  
+- **Escolher o maior:** max(5, 6) = **6**  
 
-- Orç. 4 → duas alternativas empatadas em 5:
+**Valor final** → **(A, B, C ; w = 5) = 6**
 
-    -- A + B (1 + 3 = 4 → 1 + 4 = 5)
-
-    -- C sozinho (custo 4, desp. 5).
-
-- Orç. 5 → melhora ao combinar A + C (1 + 4 = 5 → 1 + 5 = 6).
-
-- Orç. 6 → nenhuma nova combinação supera 6 (B + C ainda custa 7).
-
-- Orç. 7 → agora cabe B + C (3 + 4 = 7 → 4 + 5 = 9).
-
-- Orç. 8 → cabe o trio A + B + C (1 + 3 + 4 = 8) atingindo o desempenho máximo de 10.
+**Células utilizadas:**
+- (linha “A, B”, orçamento 5) — vizinha de cima  
+- (linha “A, B”, orçamento 1) — quatro colunas à esquerda e uma linha acima
 :::
-
 ???
 
 ---
@@ -701,7 +766,7 @@ Preencha a próxima linha, para o caso ABC.
 <br>
 
 ??? Checkpoint
-Preencha a próxima linha, para o caso ABCD. 
+Novamente, preencha a célula destacada.
 
 | CPU | Custo | Desempenho |
 |-----|-------|-------------|
@@ -718,7 +783,7 @@ Preencha a próxima linha, para o caso ABCD.
 | A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
 | A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| **A, B, C, D**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
+| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | **?** |
 
 ::: Gabarito
 | CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
@@ -726,91 +791,25 @@ Preencha a próxima linha, para o caso ABCD.
 | Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| **A, B, C, D**         | **0** | **1** | **1** | **4** | **5** | **7** | **8** | **9** | **11** |
+| A, B, C           | 0 | 1 | 1 | **4** | 5 | 6 | 6 | 9 | **10** |
+| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | **11** |
 
-- Orç. 0 – 2 → só cabe a CPU A (custo 1), logo o desempenho máximo permanece 1.
+- **Item na linha:** D (custo = 5, valor = 7)  
+- **Orçamento da coluna:** 8  
 
-- Orç. 3 → passa a caber a CPU B (custo 3, desp. 4); trocar A por B eleva o máximo para 4.
+- **Cabe?** 5 ≤ 8 → cabe  
 
-- Orç. 4 → duas alternativas empatadas em 5:
+- **Opção 1 (não incluir D):** copiar valor de cima → **célula (“A, B, C”, w = 8)** = 10  
 
-    -- A + B → 1 + 3 = 4 → 1 + 4 = 5
+- **Opção 2 (incluir D):** 7 (valor de D) + **célula (“A, B, C”, w = 3)** = 4 ⇒ 11  
 
-    -- C sozinho → custo 4, desp. 5
+- **Escolher o maior:** max(10, 11) = **11**
 
-- Orç. 5 → entra a CPU D (custo 5, desp. 7), superando qualquer outra combinação; máximo sobe para 7.
+**Valor final** → **(A, B, C, D ; w = 8) = 11**
 
-- Orç. 6 → melhor combinação é A + D (1 + 5 = 6 → 1 + 7 = 8); nenhuma outra supera 8.
-
-- Orç. 7 → agora cabe B + C (3 + 4 = 7 → 4 + 5 = 9), que se torna o novo máximo 9.
-
-- Orç. 8 → duas possibilidades cabem, mas a melhor é:
-
-    -- B + D → 3 + 5 = 8 → 4 + 7 = 11 (máximo)
-
-    -- A + B + C → 1 + 3 + 4 = 8 → 10 (não supera 11)
-:::
-
-???
-
----
-
-<br>
-
-??? Checkpoint
-Preencha a próxima linha, para o caso ABCDE. 
-
-| CPU | Custo | Desempenho |
-|-----|-------|-------------|
-| A   | 1     | 1           |
-| B   | 3     | 4           |
-| C   | 4     | 5           |
-| D   | 5     | 7           |
-| E   | 2     | 2           |
-
-<br>
-  
-| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
-| **A, B, C, D, E**         | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** | **?** |
-
-::: Gabarito
-| CPUs consideradas | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|-------------------|---|---|---|---|---|---|---|---|---|
-| Nenhuma           | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| A                 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| A, B              | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 | 5 |
-| A, B, C           | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 | 10 |
-| A, B, C, D        | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 | 11 |
-| **A, B, C, D, E**         | **0** | **1** | **2** | **4** | **5** | **7** | **8** | **9** | **11** |
-
-- Orç. 0 → nenhum chip cabe; desempenho máximo 0.
-
-- Orç. 1 → só cabe a CPU A (custo 1, desp. 1) ⇒ desempenho 1.
-
-- Orç. 2 → agora cabe a CPU E (custo 2, desp. 2), que supera A ⇒ desempenho 2.
-
-- Orç. 3 → cabe a CPU B (custo 3, desp. 4); trocar E por B eleva o máximo para 4.
-
-- Orç. 4 → duas alternativas empatadas em 5:
-
-    -- A + B → 1 + 3 = 4 → 1 + 4 = 5
-
-    -- C sozinho → custo 4, desp. 5
-
-- Orç. 5 → a melhor escolha passa a ser D (custo 5, desp. 7) ⇒ máximo 7.
-
-- Orç. 6 → melhor combinação é A + D (1 + 5 = 6 → 1 + 7 = 8) ⇒ desempenho 8.
-
-- Orç. 7 → cabe B + C (3 + 4 = 7 → 4 + 5 = 9) ⇒ desempenho 9.
-
-- Orç. 8 → melhor combinação é B + D (3 + 5 = 8 → 4 + 7 = 11) ⇒ desempenho 11.
+**Células utilizadas:**  
+- (“A, B, C”, w = 8) — vizinha de cima  
+- (“A, B, C”, w = 3) — cinco colunas à esquerda e uma linha acima
 :::
 
 ???

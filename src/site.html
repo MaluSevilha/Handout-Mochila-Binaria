@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Mochila Binária - Programação Dinâmica</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+
+    h2 {
+      color: black;
+    }
+
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    small {
+      font-size: 0.8em;
+      color: #5f3f3f;
+      display: block;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+
+    input {
+      padding: 8px;
+      width: 95%;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background-color: #cc1010;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #cc1010ad;
+    }
+
+    .step-controls {
+      margin-top: 10px;
+    }
+
+    .step-controls-color {
+      background-color: #ff0000;
+    }
+
+    .step-controls-color:hover {
+      background-color: #ff0000b4;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: max-content;
+      min-width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #f5ecec;
+      padding: 6px;
+      text-align: center;
+      min-width: 50px;
+    }
+
+    th {
+      background-color: #f04a2d;
+      color: white;
+    }
+
+    td {
+      background-color: #e7cbcb;
+    }
+
+    .value-low {
+      background-color: #dcedc8;
+    }
+
+    .value-mid {
+      background-color: #c8e6c9;
+    }
+
+    .value-high {
+      background-color: #a5d6a7;
+    }
+
+    .used-cell {
+      border: 2px solid #FFB300; /* Borda amarela */
+      background-color: #FFE082; /* Fundo amarelo claro */
+      transition: all 0.3s;
+    }
+
+    .calculating-cell {
+      border: 2px solid #01579b;
+      background-color: #81D4FA; /* Azul claro para célula sendo calculada */
+      transition: all 0.3s;
+    }
+
+    #step-info {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #333;
+      text-align: left;
+      line-height: 1.5em;
+    }
+
+    #resultadoFinal {
+      margin-top: 20px;
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 1.2em;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Problema da Mochila Binária</h2>
+
+    <label for="valores">Valores</label>
+    <input type="text" id="valores" placeholder="Ex: 60,100,120">
+    <small>Separe os elementos por vírgula</small>
+
+    <label for="pesos">Pesos</label>
+    <input type="text" id="pesos" placeholder="Ex: 10,20,30">
+    <small>Separe os elementos por vírgula</small>
+
+    <label for="capacidade">Capacidade</label>
+    <input type="number" id="capacidade" placeholder="Capacidade da mochila">
+
+    <div>
+      <button onclick="resolver(true)">Resultado Final</button>
+      <button onclick="iniciarPassoAPasso()">Passo a Passo</button>
+      <button onclick="location.reload()">Limpar</button>
+    </div>
+
+    <div class="step-controls" id="controlesPasso" style="display:none;">
+      <button onclick="voltarPasso()" class="step-controls-color">Voltar</button>
+      <button onclick="avancarPasso()" class="step-controls-color">Avançar</button>
+    </div>
+
+    <div id="resultadoFinal"></div>
+
+    <div class="table-wrapper">
+      <div id="tabela"></div>
+      <div id="step-info"></div>
+    </div>
+  </div>
+
+  <script>
+    let valores, pesos, capacidade, n, dp;
+    let iAtual = 1, wAtual = 0;
+
+    function coletarDados() {
+      valores = document.getElementById('valores').value.split(',').map(Number);
+      pesos = document.getElementById('pesos').value.split(',').map(Number);
+      capacidade = parseInt(document.getElementById('capacidade').value);
+      n = valores.length;
+
+      if (valores.length !== pesos.length || valores.some(isNaN) || pesos.some(isNaN) || isNaN(capacidade)) {
+        alert("Preencha todos os campos corretamente.");
+        return false;
+      }
+
+      return true;
+    }
+
+    function mostrarTabela(limiteI = n, limiteW = capacidade, completa = false, calcular = false) {
+      // Determinar o valor máximo para normalizar as cores
+      let maxValue = 0;
+      for (let i = 0; i <= n; i++) {
+        for (let w = 0; w <= capacidade; w++) {
+          if (dp[i][w] > maxValue) maxValue = dp[i][w];
+        }
+      }
+
+      let html = '<table><tr><th>i \\ w</th>';
+      for (let w = 0; w <= capacidade; w++) {
+        html += `<th>${w}</th>`;
+      }
+      html += '</tr>';
+
+      for (let i = 0; i <= n; i++) {
+        html += `<tr><th>${i}</th>`;
+        for (let w = 0; w <= capacidade; w++) {
+          let cellValue = completa || i < iAtual || (i === iAtual && w < wAtual) || (calcular && i === iAtual && w === wAtual) ? dp[i][w] : '';
+          let cellClass = '';
+
+          // Aplicar cores com base no valor
+          if (cellValue !== '') {
+            if (maxValue > 0) {
+              const ratio = cellValue / maxValue;
+              if (ratio < 0.33) cellClass = 'value-low';
+              else if (ratio < 0.66) cellClass = 'value-mid';
+              else cellClass = 'value-high';
+            } else {
+              cellClass = 'value-low';
+            }
+          }
+
+          // Destacar células usadas no cálculo
+          if (!completa && iAtual <= n && wAtual <= capacidade) {
+            if (i === iAtual && w === wAtual && calcular) {
+              cellClass += ' calculating-cell';
+            } else if (i === iAtual - 1 && (w === wAtual || (pesos[iAtual - 1] <= wAtual && w === wAtual - pesos[iAtual - 1]))) {
+              cellClass += ' used-cell';
+            }
+          }
+
+          html += `<td class="${cellClass}">${cellValue}</td>`;
+        }
+        html += '</tr>';
+      }
+
+      html += '</table>';
+      document.getElementById('tabela').innerHTML = html;
+    }
+
+    function resolver(final) {
+      if (!coletarDados()) return;
+
+      dp = Array.from({ length: n + 1 }, () => Array(capacidade + 1).fill(0));
+
+      if (final) {
+        for (let i = 1; i <= n; i++) {
+          for (let w = 0; w <= capacidade; w++) {
+            dp[i][w] = (pesos[i - 1] <= w)
+              ? Math.max(valores[i - 1] + dp[i - 1][w - pesos[i - 1]], dp[i - 1][w])
+              : dp[i - 1][w];
+          }
+        }
+
+        mostrarTabela(n, capacidade, true);
+
+        const resultado = dp[n][capacidade];
+        const divResultado = document.getElementById("resultadoFinal");
+        divResultado.style.display = 'block';
+        divResultado.innerHTML = `Valor máximo obtido: ${resultado}`;
+        document.getElementById('step-info').innerHTML = '';
+      }
+    }
+
+    function iniciarPassoAPasso() {
+      if (!coletarDados()) return;
+
+      dp = Array.from({ length: n + 1 }, () => Array(capacidade + 1).fill(0));
+      iAtual = 1;
+      wAtual = 0;
+      document.getElementById('resultadoFinal').style.display = 'none';
+      document.getElementById('step-info').innerHTML = 'Iniciando o cálculo passo a passo...';
+      mostrarTabela();
+      document.getElementById('controlesPasso').style.display = 'block';
+    }
+
+    function avancarPasso() {
+      if (iAtual > n) return;
+
+      // Mostrar a tabela e o texto antes de calcular a célula
+      let infoText = `Calculando dp[${iAtual}][${wAtual}]:<br>`;
+      if (pesos[iAtual - 1] <= wAtual) {
+        const valorSemItem = dp[iAtual - 1][wAtual];
+        const wMenosPeso = wAtual - pesos[iAtual - 1];
+        const valorComItem = valores[iAtual - 1] + dp[iAtual - 1][wMenosPeso];
+        infoText += `Peso[${iAtual - 1}] (${pesos[iAtual - 1]}) ≤ ${wAtual}, então:<br>` +
+                    `dp[${iAtual}][${wAtual}] = Máximo entre:<br>` +
+                    `  dp[${iAtual - 1}][${wAtual}] = ${valorSemItem}<br>` +
+                    `  ${valores[iAtual - 1]} + dp[${iAtual - 1}][${wMenosPeso}] = ${valores[iAtual - 1]} + ${dp[iAtual - 1][wMenosPeso]} = ${valorComItem}`;
+        document.getElementById('step-info').innerHTML = infoText;
+        mostrarTabela(n, capacidade, false, false);
+
+        // Calcular após exibir
+        dp[iAtual][wAtual] = Math.max(valorComItem, valorSemItem);
+        infoText += `<br>Resultado: dp[${iAtual}][${wAtual}] = ${dp[iAtual][wAtual]}`;
+      } else {
+        infoText += `Peso[${iAtual - 1}] (${pesos[iAtual - 1]}) > ${wAtual}, então:<br>` +
+                    `dp[${iAtual}][${wAtual}] = dp[${iAtual - 1}][${wAtual}] = ${dp[iAtual - 1][wAtual]}`;
+        document.getElementById('step-info').innerHTML = infoText;
+        mostrarTabela(n, capacidade, false, false);
+
+        // Calcular após exibir
+        dp[iAtual][wAtual] = dp[iAtual - 1][wAtual];
+      }
+
+      // Atualizar a tabela novamente para mostrar o valor calculado
+      mostrarTabela(n, capacidade, false, true);
+      document.getElementById('step-info').innerHTML = infoText;
+
+      wAtual++;
+      if (wAtual > capacidade) {
+        iAtual++;
+        wAtual = 0;
+      }
+
+      if (iAtual > n) {
+        const resultado = dp[n][capacidade];
+        const divResultado = document.getElementById("resultadoFinal");
+        divResultado.style.display = 'block';
+        divResultado.innerHTML = `Valor máximo obtido: ${resultado}`;
+        document.getElementById('step-info').innerHTML = 'Cálculo concluído.';
+        mostrarTabela(n, capacidade, true);
+      }
+    }
+
+    function voltarPasso() {
+      if (iAtual === 1 && wAtual === 0) return;
+
+      if (wAtual === 0) {
+        iAtual--;
+        wAtual = capacidade;
+      } else {
+        wAtual--;
+      }
+
+      dp[iAtual][wAtual] = 0;
+      document.getElementById('step-info').innerHTML = `Preparando para calcular dp[${iAtual}][${wAtual}]...`;
+      mostrarTabela();
+    }
+  </script>
+</body>
+</html>
